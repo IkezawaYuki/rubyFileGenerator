@@ -1,0 +1,10 @@
+    # ==================================================================================================
+    # Conversionでバッチ処理を実行する。
+    #   batch   : 実行するバッチの種類。
+    #   args    : バッチへの引数。
+    # ==================================================================================================
+    syori_no = $no
+    batch = $batch
+    args = $args
+    responsCode, resbStatus = execute_conversion_batch(access_token, client_id, product,batch ,args )
+    responsCode, resbStatus, result = get_status_conversion_batch_continuously(access_token, client_id, product, batch, args, 10)

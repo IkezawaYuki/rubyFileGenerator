@@ -1,4 +1,6 @@
-"""
-ikezawa yuki
-
-"""
+    retval = 0
+  rescue => e
+    $logger.error(e.message)
+  end
+  exit(retval)
+end

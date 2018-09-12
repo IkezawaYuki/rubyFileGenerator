@@ -1,0 +1,95 @@
+#! /usr/bin/env ruby
+# ------------------------------------------------------------
+#  %%rubuName%%
+# ------------------------------------------------------------
+
+require 'net/https'
+require 'uri'
+require 'json'
+require 'logger'
+require 'yaml'
+require 'pathname'
+require 'win32ole'
+
+require './common/GetProperties'
+require './common/Authenticate'
+require './common/NativeApi'
+require './common/NativeOptionalApi'
+require './common/ConversionApi'
+
+# 設定ファイル名
+API_PROPERTIES = "api.properties" + ENV['IDENTIFIER']
+SETTING_YAML = "setting.yaml" + ENV['IDENTIFIER']
+DEFAULT_POLLING_INTERVAL = 30
+DEFAULT_RETRY_TIMES = 3
+
+# 処理固有情報
+product    = ENV['PRODUCT']
+server     = ENV['SERVER']
+batch      = ENV['BATCH']
+userid     = ENV['USERID']
+args       = ENV['ARGS']
+
+# ローカルパス情報
+if_filein_dir    = ENV['IF_FILEIN_DIR'].gsub(/¥¥/) {"¥¥¥¥"}
+if_filewk_dir    = ENV['IF_FILEWK_DIR'].gsub(/¥¥/) {"¥¥¥¥"}
+if_fileout_dir   = ENV['IF_FILEOUT_DIR'].gsub(/¥¥/) {"¥¥¥¥"}
+
+# ロガー
+$logger = Logger.new(STDOUT)
+$logger.level = Logger::DEBUG
+
+$setting_dir = ENV['IF_CONF_DIR']
+
+# 0.setting.yamlからURLとプロキシの設定を取得する
+#
+# IF_CONF_DIR（環境変数）にあるsetting.yamlからURLとプロキシの設定を取得します
+data = YAML.load_file(Pathname.new($setting_dir).join(SETTING_YAML))
+#URL
+$server_root_url = data["SERVER_ROOT_URL"]
+$user_id = data["USER_ID"]
+#プロキシの設定
+$use_proxy = data["USE_PROXY"]
+$proxy_addr = data["PROXY_ADDR"]
+$proxy_port = data["PROXY_PORT"]
+$proxy_user = data["PROXY_USER"]
+$proxy_pass = data["PROXY_PASS"]
+
+# ==================================================================================================
+#
+# Main
+#
+# ==================================================================================================
+if __FILE__ == $PROGRAM_NAME
+  retval = 9 # Abnormal End
+
+  http_status = nil
+  api_status = nil
+  result = nil
+  file_count = 0
+  inputfileIdMap = {}
+  resultfileIdMap = {}
+  resultbatchIdMap = {}
+
+  $logger.info("main start...")
+
+  begin
+
+    #変数設定
+    #実行
+
+    set_interval = DEFAULT_POLLING_INTERVAL
+    if !($polling_interval.to_s.empty?)
+      set_interval = $polling_interval
+    end
+
+    # ==================================================================================================
+    # api.propertiesからclient-idとclient-secretを取得する
+    # ==================================================================================================
+    client_id, client_secret = getproperties()
+
+    # ==================================================================================================
+    # APIを利用するためのトークンを取得する。
+    # ==================================================================================================
+    access_token = authenticate(client_id, client_secret)
+    is_processing = true

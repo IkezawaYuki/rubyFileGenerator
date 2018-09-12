@@ -1,0 +1,10 @@
+    # ==================================================================================================
+    #
+    # Conversionへファイルアップロードを行う。
+    #
+    # ==================================================================================================
+    syori_no = $no
+    destination = "/IF50100099.csv"
+    unoverride = true
+    localpath = if_filein_dir + "¥¥" + "IF50100099.csv"
+    responsCode, resbApiStatus = upload_conversion(access_token, client_id, destination, unoverride, server, localpath)
