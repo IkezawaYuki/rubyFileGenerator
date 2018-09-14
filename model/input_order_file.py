@@ -20,22 +20,24 @@ def read_info(filepath):
             continue
         for row_index in range(sheet.nrows):
             row = sheet.row(row_index)
-            for cell in row:
-                # 全ての情報がセル単位で取り出すことに成功中
-                print(cell.value)
-            print(row[8])
+            logger.info(row)
+            for colum, cell in enumerate(row):
+                dispatch_cell_info(colum, cell.value)
 
 
 
-def read_sheet_info(file, target):
-    for sheet in target:
-        input_sheet_df = file.parse(sheet)
+def dispatch_cell_info(colum, value):
+    logger.info("colum is " + str(colum))
+    if colum == 8:
+        print("target!")
+    print(value)
 
 
 
     return str
 
-def test(df_list):
+def save_info():
+
     pass
 
 
