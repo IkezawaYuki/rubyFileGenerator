@@ -1,7 +1,5 @@
-import openpyxl
 import tkinter.messagebox
 import logging
-import pandas as pd
 import xlrd
 
 h = logging.FileHandler("log.txt")
