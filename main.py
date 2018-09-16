@@ -46,12 +46,11 @@ def main():
     tkinter.messagebox.showinfo('Ruby source generator ver.1.0',
                                 'インターフェースオーダー定義書のRubyを作成します。')
     # file = tkinter.filedialog.askopenfilename(filetypes=fTyp,initialdir=iDir)
-    file = "インターフェースオーダー定義書(IF051).xls"
+    file = "インターフェースオーダー定義書(IF164).xls"
 
     validate_file(file)
-    # オーダー定義書を読みこみ、Rubyを作成。
 
-    str = reading.read_info(file)
+    reading.execute(file)
 
     logger.info("読み込み時にエラー発生")
     logger.info(traceback.format_exc())

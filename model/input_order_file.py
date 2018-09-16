@@ -1,7 +1,9 @@
-import os
-import tkinter.messagebox
+
 import logging
 import xlrd
+
+import model.ruby_source_factory as factory
+import model.output_ruby_file as out
 
 h = logging.FileHandler("log.txt")
 logger = logging.getLogger(__name__)
@@ -9,7 +11,7 @@ logger.setLevel(logging.DEBUG)
 logger.addHandler(h)
 
 
-def read_info(filepath):
+def execute(filepath):
     """エクセルの情報を取得します。Ruby作成に必要のないsheetは無視します。"""
     strings = []
     file = xlrd.open_workbook(filepath)
@@ -25,30 +27,45 @@ def read_info(filepath):
                 continue
             logger.info("target row is" + str(row))
             strs = read_info_row(row)
+            if strs is None:
+                continue
             strings.append(strs)
-            strs = ""
+        out.execute_output(strings)
 
+
+def create_args(argCell):
+    arg = str(argCell).replace("\n", " ")
+    arg = arg.replace("\r\n", " ")
+    return arg
+
+
+def adjust_number_format(syoriNo):
+    if len(syoriNo) > 0:
+        number = float(syoriNo)
+        number = int(number)
+        return str(number)
+    return ""
 
 def read_info_row(row):
-    syoriNo = str(row[7])
-    processContentsCell = str(row[8])
-    processExecCell = str(row[9])
-    ifCode = str(row[10])
-    syoriNoToUse = str(row[11])
-    convFilePathCell = str(row[12])
-    productName = str(row[13])
-    batchName = str(row[14])
-    argCell = str(row[15])
+    syoriNo = str(row[7].value)
+    processContentsCell = str(row[8].value)
+    processExecCell = str(row[9].value)
+    ifCode = str(row[10].value)
+    syoriNoToUse = str(row[11].value)
+    convFilePathCell = str(row[12].value)
+    productName = str(row[13].value)
+    batchName = str(row[14].value)
+    argCell = str(row[15].value)
 
-    print("read_info_row def = " + str(processContentsCell))
 
     processContents = processContentsCell[0:1]
     processExec = processExecCell[0:1]
-
     convFilePath = convFilePathCell.replace("%UPDOWN_ROOT%", "")
 
     arg = create_args(argCell)
-    print("arg = " + arg)
+
+    syoriNo = adjust_number_format(syoriNo)
+    syoriNoToUse = adjust_number_format(syoriNoToUse)
 
     logger.info("syoriNo=" + syoriNo + ", processExec=" + processExec +
                 ", ifCode=" + ifCode + ", syoriNoToUse=" + syoriNoToUse +
@@ -57,108 +74,46 @@ def read_info_row(row):
 
     strs = read_cell_info(syoriNo, processContents, processExec, ifCode,
                           syoriNoToUse, convFilePath
-                          ,productName, batchName, arg)
+                          , productName, batchName, arg)
     return strs
-
-def create_args(argCell):
-    arg = str(argCell).replace("\n", "")
-    arg = arg.replace("\r\n", "")
-    return arg
 
 
 def read_cell_info(syoriNo, processContents, processExec, ifCode, syoriNoToUse, convFilePath
                        , productName, batchName, arg):
     if processContents == "9":
         logger.info("appendN2C")
-        return appendC2N(syoriNo, syoriNoToUse, convFilePath)
+        return factory.appendN2C(syoriNo, syoriNoToUse, convFilePath)
     elif processContents == "1" and processExec == "N":
         logger.info("appendC2N")
-        return appendC2N(syoriNo, convFilePath)
+        return factory.appendC2N(syoriNo, convFilePath)
     elif processExec == "N":
         logger.info("dispatchNative")
         return dispatch_native(syoriNo, processContents, ifCode, syoriNoToUse)
     elif processExec == "C":
         logger.info("distapchConversion")
-        print("dispatchConversion")
-
+        return dispatch_conv(syoriNo, processContents, syoriNoToUse,
+                             convFilePath, productName, batchName, arg)
     return "Null"
 
 
 def dispatch_native(syoriNo, processContents, ifCode, syoriNoToUse):
     if processContents == "1":
         logger.info("appendUploadHue")
-        print(processContents)
+        return factory.append_upload_hue(syoriNo, "ローカルファイルパス")
     elif processContents == "2":
-        print("appendDownloadHue")
+        return factory.append_download_hue(syoriNo,syoriNoToUse,"ローカルファイルパス")
     elif processContents == "5":
-        print("processContents")
+        syoriNoList = syoriNoToUse.split(",")
+        return factory.append_transform(syoriNo, ifCode, syoriNoList)
 
 
 def dispatch_conv(syoriNo,processContents,syoriNoToUse, convFilePath,productName,batchName,arg):
     if processContents == "1":
-        print(processContents)
+        return factory.append_file_up_conv(syoriNo, convFilePath)
     elif processContents == "2":
-        print("appendDownloadHue")
+        return factory.append_file_down_conv(syoriNo, convFilePath)
     elif processContents == "6":
-        print("processContents")
-
-
-
-def appendC2N(syoriNo, filePath):
-    strs = ""
-    with open("template/c2n.txt", "r") as f:
-        crlf = os.sep()
-        strs = f.read()
-        strs.format(no=syoriNo, source= crlf + filePath + crlf)
-    return strs
-
-
-def appendN2C(syoriNo, syoriNoToUse, filePath):
-    strs = ""
-    with open("template/n2c.txt", "r") as f:
-        crlf = os.sep()
-        strs = f.read()
-        strs.format(no=syoriNo, fileid="resultfileIdMap[" + syoriNoToUse + "]",
-                    destination=crlf + filePath + crlf)
-    return strs
-
-
-def append_upload_hue(syoriNo, localFileName):
-    strs = ""
-    with open("template/uploadHue.txt", "r") as f:
-        crlf = os.sep()
-        strs = f.read()
-        localFile = "if_filein_dir + \"\\\\\" + \"" + localFileName + "\""
-        strs.format(no=syoriNo, localpath=localFile)
-    return strs
-
-
-def append_download_hue(syoriNo,fileNo,localFileName):
-    with open("template/downloadHue.txt") as f:
-        strs = f.read()
-        file_no = "resultfileIdMap" + fileNo + "]"
-        local_file_name = "if_fileout_dir + \"\\\\\" + \"" + localFileName + "\""
-    strs.format(no=syoriNo, fileid=file_no, localpath=local_file_name)
-    return strs
-
-
-def append_transform(syoriNo, transformcode, syoriNoList):
-    with open("template/transform.txt") as f:
-        strs = f.read()
-        crlf = os.linesep()
-        transform_code = "\"" + transformcode + "\""
-    inputfile_id_map = ""
-
-    for i, syoriNoToUse in enumerate(syoriNoList):
-        temp = "    inputfileIdMap[\"" + str(i+1) + "\"] = " \
-               + "resultfileIdMap[" + syoriNoToUse + "]" + crlf
-        inputfile_id_map.append(temp)
-    strs.format(no=syoriNoList, transformcode=transform_code, inputfileIdMap=inputfile_id_map)
-    return strs
-
-
-
-
+        return factory.append_exec_conv_batch(syoriNo, batchName, arg)
 
 
 

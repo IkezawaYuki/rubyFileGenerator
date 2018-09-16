@@ -4,9 +4,9 @@
     #   inputfileIdMap["1"]   : 入力ファイル１
     #   inputfileIdMap["2"]   : 入力ファイル２ ※以下続く、入力が１ファイルのみの場合は不要。
     # ==================================================================================================
-    syori_no = $no
-    $transformcode
+    syori_no = {no}
+    transformcode = {transformcode}
     inputfileIdMap.clear
-    $inputfileIdMap
+    {inputfileIdMap}
     responsCode, resbStatus, resultbatchIdMap[syori_no], resultfileIdMap[syori_no] = transform(access_token, client_id, userid, transformcode, inputfileIdMap)
     responsCode, resbStatus = get_status_hue_continuously(access_token, client_id, userid, resultbatchIdMap[syori_no], 10)

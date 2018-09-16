@@ -3,7 +3,7 @@
     #   source    : Conversion のダウンロード元パスを指定。/nfsroot/interface/client 以下のパスを指定。
     #   localpath : ダウンロードファイルの保存先を指定。¥は¥でエスケープする。 例）C:¥ → C:¥¥
     # ==================================================================================================
-    syori_no = $no
-    source = $source
-    localpath = if_filewk_dir + "¥¥" + $filename
+    syori_no = {no}
+    source = {source}
+    localpath = {localpath}
     responsCode, resbApiStatus = download_conversion(access_token, client_id, source, server, localpath)
