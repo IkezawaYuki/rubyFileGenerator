@@ -7,7 +7,7 @@ import xlrd
 import openpyxl
 
 import model.input_order_file as reading
-import model.output_ruby_source
+import model.ruby_source_factory
 import logging
 
 h = logging.FileHandler("log.txt", encoding="utf-8")
@@ -45,8 +45,8 @@ def main():
     iDir = os.path.abspath(os.path.dirname(__file__))
     tkinter.messagebox.showinfo('Ruby source generator ver.1.0',
                                 'インターフェースオーダー定義書のRubyを作成します。')
-    file = tkinter.filedialog.askopenfilename(filetypes=fTyp,initialdir=iDir)
-    # file = "インターフェースオーダー定義書(IF051).xls"
+    # file = tkinter.filedialog.askopenfilename(filetypes=fTyp,initialdir=iDir)
+    file = "インターフェースオーダー定義書(IF051).xls"
 
     validate_file(file)
     # オーダー定義書を読みこみ、Rubyを作成。
