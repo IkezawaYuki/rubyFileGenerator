@@ -8,13 +8,13 @@ logger.addHandler(h)
 
 def ruby_source_write(string_list):
     with open("test.txt", "w+") as f:
-        with open("model/template/header.txt", "r") as r:
+        with open("template/header.txt", "r") as r:
             header = r.read()
             f.write(header)
 
         f.write("\n".join(string_list))
 
-        with open("model/template/footer.txt", "r") as r:
+        with open("template/footer.txt", "r") as r:
             footer = r.read()
             f.write(footer)
 
