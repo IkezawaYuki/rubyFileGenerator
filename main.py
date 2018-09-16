@@ -40,7 +40,7 @@ def main():
     tkinter.messagebox.showinfo('Ruby source generator ver.1.0',
                                 'インターフェースオーダー定義書のRubyを作成します。')
     # file = tkinter.filedialog.askopenfilename(filetypes=fTyp,initialdir=iDir)
-    file = "インターフェースオーダー定義書(IF164).xls"
+    file = "/Users/ikezaway/PycharmProjects/rubyFileGenerator/インターフェースオーダー定義書(IF523).xls"
     validate_file(file)
 
     try:

@@ -48,9 +48,9 @@ def append_transform(syoriNo, transformcode, syoriNoList):
     inputfile_id_map = ""
 
     for i, syoriNoToUse in enumerate(syoriNoList):
-        temp = "    inputfileIdMap[\"" + str(i+1) + "\"] = " \
-               + "resultfileIdMap[" + syoriNoToUse + "]" + "\\"
-        inputfile_id_map += temp + "\n"
+        temp = "inputfileIdMap[\"" + str(i+1) + "\"] = " \
+               + "resultfileIdMap[\"" + syoriNoToUse + "\"]"
+        inputfile_id_map += temp + "\n    "
     strs = strs.format(no=syoriNo, transformcode=transform_code,
                        inputfileIdMap=inputfile_id_map)
     return strs

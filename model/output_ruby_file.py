@@ -6,8 +6,9 @@ logger.setLevel(logging.DEBUG)
 logger.addHandler(h)
 
 
-def ruby_source_write(string_list):
-    with open("test.txt", "w+") as f:
+def ruby_source_write(target_path_rb, string_list):
+    target_path_rb += ".rb"
+    with open(target_path_rb, "w+") as f:
         with open("template/header.txt", "r") as r:
             header = r.read()
             f.write(header)
@@ -19,10 +20,13 @@ def ruby_source_write(string_list):
             f.write(footer)
 
 
-def write_batch_file(string_list):
-    pass
+def write_batch_file(target_path_bat, string_list):
+    target_path_bat += ".bat"
+    with open(target_path_bat, "w") as f:
+        pass
 
 
-def execute_output(string_list):
-    ruby_source_write(string_list)
-    write_batch_file(string_list)
+def execute_output(output_taget_path, page, string_list):
+    taget_path = output_taget_path + "_" + str(page)
+    ruby_source_write(taget_path, string_list)
+    write_batch_file(taget_path, string_list)

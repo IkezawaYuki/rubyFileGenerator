@@ -43,7 +43,9 @@ def read_info(row):
     arg = create_args(argCell)
 
     syoriNo = adjust_number_format(syoriNo)
-    syoriNoToUse = adjust_number_format(syoriNoToUse)
+
+    if "," not in syoriNoToUse:
+        syoriNoToUse = adjust_number_format(syoriNoToUse)
 
     logger.info("syoriNo=" + syoriNo + ", processExec=" + processExec +
                 ", ifCode=" + ifCode + ", syoriNoToUse=" + syoriNoToUse +
