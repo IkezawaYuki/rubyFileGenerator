@@ -11,28 +11,6 @@ logger.setLevel(logging.DEBUG)
 logger.addHandler(h)
 
 
-def execute(filepath):
-    """エクセルの情報を取得します。Ruby作成に必要のないsheetは無視します。"""
-    strings = []
-    file = xlrd.open_workbook(filepath)
-    for i in range(file.nsheets):
-        sheet = file.sheet_by_index(i)
-        if sheet.name == "更新履歴" or sheet.name == "表紙" or sheet.name == "環境変数一覧":
-            continue
-
-        logger.info("target sheet name is " + str(sheet.name))
-        for row_index in range(sheet.nrows):
-            row = sheet.row(row_index)
-            if row_index < 5:
-                continue
-            logger.info("target row is" + str(row))
-            strs = read_info_row(row)
-            if strs is None:
-                continue
-            strings.append(strs)
-        out.execute_output(strings)
-
-
 def create_args(argCell):
     arg = str(argCell).replace("\n", " ")
     arg = arg.replace("\r\n", " ")
@@ -46,7 +24,8 @@ def adjust_number_format(syoriNo):
         return str(number)
     return ""
 
-def read_info_row(row):
+
+def read_info(row):
     syoriNo = str(row[7].value)
     processContentsCell = str(row[8].value)
     processExecCell = str(row[9].value)
@@ -56,7 +35,6 @@ def read_info_row(row):
     productName = str(row[13].value)
     batchName = str(row[14].value)
     argCell = str(row[15].value)
-
 
     processContents = processContentsCell[0:1]
     processExec = processExecCell[0:1]
@@ -101,6 +79,7 @@ def dispatch_native(syoriNo, processContents, ifCode, syoriNoToUse):
         logger.info("appendUploadHue")
         return factory.append_upload_hue(syoriNo, "ローカルファイルパス")
     elif processContents == "2":
+        logger.info("append_download_hue")
         return factory.append_download_hue(syoriNo,syoriNoToUse,"ローカルファイルパス")
     elif processContents == "5":
         syoriNoList = syoriNoToUse.split(",")

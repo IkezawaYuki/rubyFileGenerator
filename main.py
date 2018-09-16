@@ -2,12 +2,9 @@ import os
 import tkinter.filedialog
 import tkinter.messagebox
 import traceback
-import pandas as pd
-import xlrd
-import openpyxl
 
+import controller.controll as co
 import model.input_order_file as reading
-import model.ruby_source_factory
 import logging
 
 h = logging.FileHandler("log.txt", encoding="utf-8")
@@ -30,15 +27,12 @@ def validate_file(file):
         exit(0)
 
     if "インターフェースオーダー定義書" not in file:
-        tkinter.messagebox.showerror("Ruby source generator ver1.0", "オーダー定義書ではありません。")
+        tkinter.messagebox.showerror("Ruby source generator ver1.0",
+                                     "オーダー定義書ではありません。")
         exit(0)
 
 
-
 def main():
-
-    logger.info("hello")
-    # ファイル選択ダイアログの表示
     root = tkinter.Tk()
     root.withdraw()
     fTyp = [("","*")]
@@ -47,15 +41,15 @@ def main():
                                 'インターフェースオーダー定義書のRubyを作成します。')
     # file = tkinter.filedialog.askopenfilename(filetypes=fTyp,initialdir=iDir)
     file = "インターフェースオーダー定義書(IF164).xls"
-
     validate_file(file)
 
-    reading.execute(file)
+    try:
+        co.execute(file)
+    except IOError:
+        logger.info(traceback.format_exc())
+        print("Error is occured !")
+        exit(0)
 
-    logger.info("読み込み時にエラー発生")
-    logger.info(traceback.format_exc())
-
-# ファイルにRubyを出力する
 
 if __name__ == "__main__":
     main()
