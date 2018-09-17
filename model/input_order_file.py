@@ -1,9 +1,9 @@
 
 import logging
-import xlrd
+from _datetime import datetime
 
 import model.ruby_source_factory as factory
-import model.output_ruby_file as out
+
 
 h = logging.FileHandler("log.txt")
 logger = logging.getLogger(__name__)
@@ -11,9 +11,24 @@ logger.setLevel(logging.DEBUG)
 logger.addHandler(h)
 
 
+def adjust_args_format(arg):
+    arg_list = arg.split(" ")
+    for i, temp in enumerate(arg_list):
+        if "システム日付" in temp:
+            day = datetime.now().strftime("%Y/%m/%d")
+            arg_list[i] = day
+        elif "***" in temp:
+            print(temp)
+            slash = temp.index("/")
+            user_code = temp[0:slash]
+            arg_list[i] = user_code + "/" + user_code
+    return " ".join(arg_list)
+
+
 def create_args(argCell):
     arg = str(argCell).replace("\n", " ")
     arg = arg.replace("\r\n", " ")
+    arg = adjust_args_format(arg)
     return arg
 
 
@@ -61,16 +76,14 @@ def read_info(row):
 def read_cell_info(syoriNo, processContents, processExec, ifCode, syoriNoToUse, convFilePath
                        , productName, batchName, arg):
     if processContents == "9":
-        logger.info("appendN2C")
-        return factory.appendN2C(syoriNo, syoriNoToUse, convFilePath)
+        logger.info("appendN2C start...")
+        return factory.append_n_to_c(syoriNo, syoriNoToUse, convFilePath)
     elif processContents == "1" and processExec == "N":
-        logger.info("appendC2N")
-        return factory.appendC2N(syoriNo, convFilePath)
+        logger.info("appendC2N start...")
+        return factory.append_c_to_n(syoriNo, convFilePath)
     elif processExec == "N":
-        logger.info("dispatchNative")
         return dispatch_native(syoriNo, processContents, ifCode, syoriNoToUse)
     elif processExec == "C":
-        logger.info("distapchConversion")
         return dispatch_conv(syoriNo, processContents, syoriNoToUse,
                              convFilePath, productName, batchName, arg)
     return "Null"
@@ -78,22 +91,26 @@ def read_cell_info(syoriNo, processContents, processExec, ifCode, syoriNoToUse, 
 
 def dispatch_native(syoriNo, processContents, ifCode, syoriNoToUse):
     if processContents == "1":
-        logger.info("appendUploadHue")
+        logger.info("append_upload_hue start...")
         return factory.append_upload_hue(syoriNo, "ローカルファイルパス")
     elif processContents == "2":
-        logger.info("append_download_hue")
+        logger.info("append_download_hue start...")
         return factory.append_download_hue(syoriNo,syoriNoToUse,"ローカルファイルパス")
     elif processContents == "5":
+        logger.info("append_transform start...")
         syoriNoList = syoriNoToUse.split(",")
         return factory.append_transform(syoriNo, ifCode, syoriNoList)
 
 
 def dispatch_conv(syoriNo,processContents,syoriNoToUse, convFilePath,productName,batchName,arg):
     if processContents == "1":
+        logger.info("append_file_up_conv start...")
         return factory.append_file_up_conv(syoriNo, convFilePath)
     elif processContents == "2":
+        logger.info("append_file_down_conv start...")
         return factory.append_file_down_conv(syoriNo, convFilePath)
     elif processContents == "6":
+        logger.info("append_exec_conv_batch start...")
         return factory.append_exec_conv_batch(syoriNo, batchName, arg)
 
 

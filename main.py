@@ -2,10 +2,9 @@ import os
 import tkinter.filedialog
 import tkinter.messagebox
 import traceback
+import logging
 
 import controller.controll as co
-import model.input_order_file as reading
-import logging
 
 h = logging.FileHandler("log.txt", encoding="utf-8")
 logger = logging.getLogger(__name__)
@@ -19,7 +18,7 @@ def validate_file(file):
 
     logger.info("Start processing...")
     logger.info("Target path is " + file)
-    confirm = tkinter.messagebox.askokcancel('Ruby source generator ver1.0',
+    confirm = tkinter.messagebox.askokcancel('Ruby作成ツール ver.Python',
                                             '以下のファイルのサンプルデータを作成します。\n\n' + file)
 
     if confirm is not True:
@@ -27,7 +26,7 @@ def validate_file(file):
         exit(0)
 
     if "インターフェースオーダー定義書" not in file:
-        tkinter.messagebox.showerror("Ruby source generator ver1.0",
+        tkinter.messagebox.showerror("Ruby作成ツール ver.Python",
                                      "オーダー定義書ではありません。")
         exit(0)
 
@@ -37,17 +36,20 @@ def main():
     root.withdraw()
     fTyp = [("","*")]
     iDir = os.path.abspath(os.path.dirname(__file__))
-    tkinter.messagebox.showinfo('Ruby source generator ver.1.0',
-                                'インターフェースオーダー定義書のRubyを作成します。')
+
     # file = tkinter.filedialog.askopenfilename(filetypes=fTyp,initialdir=iDir)
     file = "/Users/ikezaway/PycharmProjects/rubyFileGenerator/インターフェースオーダー定義書(IF523).xls"
     validate_file(file)
 
     try:
         co.execute(file)
-    except IOError:
+    except co.ReadingException:
         logger.info(traceback.format_exc())
-        print("Error is occured !")
+        print("Error is occured in reading!")
+        exit(0)
+    except co.WritingException:
+        logger.info(traceback.format_exc())
+        print("Error is occured in writing!")
         exit(0)
 
 

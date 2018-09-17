@@ -6,7 +6,10 @@ logger.setLevel(logging.DEBUG)
 logger.addHandler(h)
 
 
-def appendC2N(syoriNo, filePath):
+def append_c_to_n(syoriNo, filePath):
+    """
+    ConversionからHUEへファイル転送する。
+    """
     with open("template/c2n.txt", "r") as f:
         strs = f.read()
     file_path = "\"" + filePath + "\""
@@ -14,7 +17,10 @@ def appendC2N(syoriNo, filePath):
     return strs
 
 
-def appendN2C(syoriNo, syoriNoToUse, filePath):
+def append_n_to_c(syoriNo, syoriNoToUse, filePath):
+    """
+    HUEからConversionへファイル転送を行う。
+    """
     with open("template/n2c.txt", "r") as f:
         strs = f.read()
     result_id_map = "resultfileIdMap[" + syoriNoToUse + "]"
@@ -24,7 +30,9 @@ def appendN2C(syoriNo, syoriNoToUse, filePath):
 
 
 def append_upload_hue(syoriNo, localFileName):
-    strs = ""
+    """
+    HUEへファイルをアップロードする。
+    """
     with open("template/uploadHue.txt", "r") as f:
         strs = f.read()
     localFile = "if_filein_dir + \"\\\\\" + \"" + localFileName + "\""
@@ -33,6 +41,9 @@ def append_upload_hue(syoriNo, localFileName):
 
 
 def append_download_hue(syoriNo,fileNo,localFileName):
+    """
+    HUEからファイルをダウンロードする。
+    """
     with open("template/downloadHue.txt") as f:
         strs = f.read()
     file_no = "resultfileIdMap" + fileNo + "]"
@@ -42,6 +53,9 @@ def append_download_hue(syoriNo,fileNo,localFileName):
 
 
 def append_transform(syoriNo, transformcode, syoriNoList):
+    """
+    Converterで変換する。
+    """
     with open("template/transform.txt") as f:
         strs = f.read()
     transform_code = "\"" + transformcode + "\""
@@ -57,6 +71,9 @@ def append_transform(syoriNo, transformcode, syoriNoList):
 
 
 def append_exec_conv_batch(syoriNo, batch, arg):
+    """
+    Conversionでバッチ処理を実行する。
+    """
     with open("template/execConvBatch.txt") as f:
         strs = f.read()
     batch_s = "\"" + batch + "\""
@@ -68,6 +85,9 @@ def append_exec_conv_batch(syoriNo, batch, arg):
 
 
 def append_file_up_conv(syoriNo, filePath):
+    """
+    Conversionへファイルアップロードを行う。
+    """
     with open("template/fileUpConv.txt") as f:
         strs = f.read()
     file_path = "\"" + filePath + "\""
@@ -82,6 +102,9 @@ def append_file_up_conv(syoriNo, filePath):
 
 
 def append_file_down_conv(syoriNo, filePath):
+    """
+    Conversionからファイルをダウンロードする。
+    """
     with open("template/fileDownConv.txt") as f:
         strs = f.read()
     file_path = "\"" + filePath + "\""
