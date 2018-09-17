@@ -22,9 +22,9 @@ def ruby_source_write(target_path_rb, string_list):
     logger.info("ruby_source_write end.")
 
 
-def write_batch_file(target_path_bat, string_list):
+def write_batch_file(target_path_bat):
     logger.info("write_batch_file start: " + str(target_path_bat))
-    file_name = str(target_path_bat[int(str(target_path_bat).rindex("/")+1):]) \
+    file_name = str(target_path_bat[int(str(target_path_bat).rindex("/")+1):])\
                      + ".rb"
     target_path_bat += ".bat"
 
@@ -37,6 +37,6 @@ def write_batch_file(target_path_bat, string_list):
 
 
 def execute_output(output_taget_path, page, string_list):
-    taget_path = output_taget_path + "_" + str(page)
-    ruby_source_write(taget_path, string_list)
-    write_batch_file(taget_path, string_list)
+    target_path = output_taget_path + "_sheet" + str(page)
+    ruby_source_write(target_path, string_list)
+    write_batch_file(target_path)

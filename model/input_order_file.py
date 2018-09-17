@@ -18,7 +18,6 @@ def adjust_args_format(arg):
             day = datetime.now().strftime("%Y/%m/%d")
             arg_list[i] = day
         elif "***" in temp:
-            print(temp)
             slash = temp.index("/")
             user_code = temp[0:slash]
             arg_list[i] = user_code + "/" + user_code
@@ -26,7 +25,8 @@ def adjust_args_format(arg):
 
 
 def create_args(argCell):
-    arg = str(argCell).replace("\n", " ")
+    arg = str(argCell).replace("  ", " ")
+    arg = arg.replace("\n", " ")
     arg = arg.replace("\r\n", " ")
     arg = adjust_args_format(arg)
     return arg
@@ -86,7 +86,7 @@ def read_cell_info(syoriNo, processContents, processExec, ifCode, syoriNoToUse, 
     elif processExec == "C":
         return dispatch_conv(syoriNo, processContents, syoriNoToUse,
                              convFilePath, productName, batchName, arg)
-    return "Null"
+    return
 
 
 def dispatch_native(syoriNo, processContents, ifCode, syoriNoToUse):
@@ -100,6 +100,7 @@ def dispatch_native(syoriNo, processContents, ifCode, syoriNoToUse):
         logger.info("append_transform start...")
         syoriNoList = syoriNoToUse.split(",")
         return factory.append_transform(syoriNo, ifCode, syoriNoList)
+    return
 
 
 def dispatch_conv(syoriNo,processContents,syoriNoToUse, convFilePath,productName,batchName,arg):
@@ -112,8 +113,5 @@ def dispatch_conv(syoriNo,processContents,syoriNoToUse, convFilePath,productName
     elif processContents == "6":
         logger.info("append_exec_conv_batch start...")
         return factory.append_exec_conv_batch(syoriNo, batchName, arg)
-
-
-
 
 

@@ -51,6 +51,9 @@ def execute(filepath):
                 continue
             strings.append(strs)
 #        try:
-            outfile.execute_output(output_target_path, page, strings)
-#        except IOError:
+        if len(strings) > 0:
+            outfile.execute_output(output_target_path, page-1, strings)
+        strings.clear()
+
+# except IOError:
 #            raise WritingException("error is " + str(sheet.name))
