@@ -22,12 +22,13 @@ def validate_file(file):
                                             '以下のファイルのサンプルデータを作成します。\n\n' + file)
 
     if confirm is not True:
-        logger.info("システムを終了します。")
+        logger.info("キャンセル")
         exit(0)
 
     if "インターフェースオーダー定義書" not in file:
         tkinter.messagebox.showerror("Ruby作成ツール ver.Python",
                                      "オーダー定義書ではありません。")
+        logger.info("「オーダー定義書」の文言がない")
         exit(0)
 
 
@@ -46,10 +47,12 @@ def main():
     except co.ReadingException:
         logger.info(traceback.format_exc())
         print("Error is occured in reading!")
+        print(traceback.format_exc())
         exit(0)
     except co.WritingException:
         logger.info(traceback.format_exc())
-        print("Error is occured in writing!")
+        print("Error is occurred in writing!")
+        print(traceback.format_exc())
         exit(0)
 
 

@@ -46,14 +46,13 @@ def execute(filepath):
             try:
                 strs = infile.read_info(row)
             except IOError:
-                raise ReadingException("error is " + str(row))
+                raise ReadingException()
             if strs is None:
                 continue
             strings.append(strs)
-#        try:
-        if len(strings) > 0:
-            outfile.execute_output(output_target_path, page-1, strings)
-        strings.clear()
-
-# except IOError:
-#            raise WritingException("error is " + str(sheet.name))
+        try:
+            if len(strings) > 0:
+                outfile.execute_output(output_target_path, page-1, strings)
+            strings.clear()
+        except IOError:
+            raise WritingException()
