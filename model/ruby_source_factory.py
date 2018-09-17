@@ -95,8 +95,8 @@ def append_file_up_conv(syoriNo, filePath):
     localpath = "if_filein_dir + \"\\\\\" + \"" + filePath.replace("/", "") +\
                 "\""
 
-    strs = strs.format(no=syoriNo, destination=file_path ,unoverride=unoverride,
-                localpath=localpath)
+    strs = strs.format(no=syoriNo, destination=file_path, unoverride=unoverride,
+                       localpath=localpath)
     logger.info(strs)
     return strs
 
@@ -110,6 +110,10 @@ def append_file_down_conv(syoriNo, filePath):
     file_path = "\"" + filePath + "\""
     local_path = "if_fileout_dir + \"\\\\\" + \"" +\
                  filePath.replace("/", "") + "\""
-    strs = strs.format(no=syoriNo, source=file_path, localpath=local_path)
+    local_path2 = "if_filewk_dir + \"\\\\\" + \"" +\
+                 filePath.replace("/", "") + "\""
+    filedId = "resultfileIdMap[\"" + syoriNo + "\"]"
+    strs = strs.format(no=syoriNo, source=file_path, localpath=local_path,
+                       fileid=filedId, localpath2=local_path2)
     logger.info(strs)
     return strs

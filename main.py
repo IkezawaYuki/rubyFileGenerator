@@ -55,6 +55,8 @@ def main():
         print(traceback.format_exc())
         exit(0)
 
+    tkinter.messagebox.showinfo("Ruby作成ツール ver.Python", "処理が完了しました。")
+
 
 if __name__ == "__main__":
     main()

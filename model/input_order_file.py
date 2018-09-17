@@ -1,7 +1,7 @@
 
 import logging
-from _datetime import datetime
-
+from _datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
 import model.ruby_source_factory as factory
 
 
@@ -15,8 +15,14 @@ def adjust_args_format(arg):
     arg_list = arg.split(" ")
     for i, temp in enumerate(arg_list):
         if "システム日付" in temp:
-            day = datetime.now().strftime("%Y/%m/%d")
-            arg_list[i] = day
+            today = datetime.now().strftime("%Y/%m/%d")
+            arg_list[i] = today
+        elif "日付" in temp:
+            today = datetime.today()
+            last_day = (today + relativedelta(months=1)
+                        ).replace(day=1) - timedelta(days=1)
+            last_day = datetime.strftime(last_day, '%Y/%m/%d')
+            arg_list[i] = last_day
         elif "***" in temp:
             slash = temp.index("/")
             user_code = temp[0:slash]
@@ -68,8 +74,8 @@ def read_info(row):
                 productName + ", batchName=" + batchName + ", arg=" + arg)
 
     strs = read_cell_info(syoriNo, processContents, processExec, ifCode,
-                          syoriNoToUse, convFilePath
-                          , productName, batchName, arg)
+                          syoriNoToUse, convFilePath, productName, batchName,
+                          arg)
     return strs
 
 
@@ -113,5 +119,5 @@ def dispatch_conv(syoriNo,processContents,syoriNoToUse, convFilePath,productName
     elif processContents == "6":
         logger.info("append_exec_conv_batch start...")
         return factory.append_exec_conv_batch(syoriNo, batchName, arg)
-
+    return
 

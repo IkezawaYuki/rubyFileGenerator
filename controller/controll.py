@@ -47,6 +47,7 @@ def execute(filepath):
                 strs = infile.read_info(row)
             except IOError:
                 raise ReadingException()
+
             if strs is None:
                 continue
             strings.append(strs)
