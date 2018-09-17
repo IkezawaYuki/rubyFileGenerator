@@ -50,7 +50,7 @@ def execute(filepath):
             if strs is None:
                 continue
             strings.append(strs)
-        try:
+#        try:
             outfile.execute_output(output_target_path, page, strings)
-        except IOError:
-            raise WritingException("error is " + str(sheet.name))
+#        except IOError:
+#            raise WritingException("error is " + str(sheet.name))

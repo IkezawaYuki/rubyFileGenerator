@@ -13,7 +13,7 @@ def ruby_source_write(target_path_rb, string_list):
         with open("template/header.txt", "r") as r:
             header = r.read()
             f.write(header)
-            
+
         f.write("\n".join(string_list))
 
         with open("template/footer.txt", "r") as r:
@@ -24,9 +24,15 @@ def ruby_source_write(target_path_rb, string_list):
 
 def write_batch_file(target_path_bat, string_list):
     logger.info("write_batch_file start: " + str(target_path_bat))
+    file_name = str(target_path_bat[int(str(target_path_bat).rindex("/")+1):]) \
+                     + ".rb"
     target_path_bat += ".bat"
+
     with open(target_path_bat, "w") as f:
-        pass
+        with open("template/bat_template.txt", "r") as r:
+            bat_file = r.read()
+            bat_file = bat_file.format(bat_file_name=file_name)
+        f.write(bat_file)
     logger.info("write_batch_file end.")
 
 
