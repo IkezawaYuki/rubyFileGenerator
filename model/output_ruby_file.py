@@ -9,7 +9,7 @@ logger.addHandler(h)
 def ruby_source_write(target_path_rb, string_list):
     logger.info("ruby_source_write start: " + str(target_path_rb))
     target_path_rb += ".rb"
-    with open(target_path_rb, "w+",encoding="utf-8") as f:
+    with open(target_path_rb, "w",encoding="utf-8") as f:
         with open("template/header.txt", "r",encoding="utf-8") as r:
             header = r.read()
             f.write(header)

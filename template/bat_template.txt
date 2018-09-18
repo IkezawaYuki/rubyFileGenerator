@@ -11,7 +11,7 @@ rem ------------------------------------------------------------
 rem 0. 設定ファイルの読み込み
 rem setenv.batを読み込みます
 cd /d %~dp0
-call ..¥config¥setenv.bat
+call ..\config\setenv.bat
 
 rem 1. ログファイル出力用フォルダ作成
 rem setenv.batで設定された場所にlogsフォルダを作成します
@@ -28,7 +28,7 @@ SET args=%*
 
 cd %CJK_SOURCE_DIR%
 
-ruby %CJK_SOURCE_DIR%¥{bat_file_name}%args% >> %log%
+ruby %CJK_SOURCE_DIR%\{bat_file_name}%args% >> %log%
 SET RUBY_ERRORLEVEL=%ERRORLEVEL%
 
 pause

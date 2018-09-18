@@ -1,6 +1,6 @@
 #! /usr/bin/env ruby
 # ------------------------------------------------------------
-#  %%rubuName%%
+#  Made from Ruby file generator.
 # ------------------------------------------------------------
 
 require 'net/https'
@@ -31,9 +31,9 @@ userid     = ENV['USERID']
 args       = ENV['ARGS']
 
 # ローカルパス情報
-if_filein_dir    = ENV['IF_FILEIN_DIR'].gsub(/¥¥/) {"¥¥¥¥"}
-if_filewk_dir    = ENV['IF_FILEWK_DIR'].gsub(/¥¥/) {"¥¥¥¥"}
-if_fileout_dir   = ENV['IF_FILEOUT_DIR'].gsub(/¥¥/) {"¥¥¥¥"}
+if_filein_dir    = ENV['IF_FILEIN_DIR'].gsub(/\\/) {"\\\\"}
+if_filewk_dir    = ENV['IF_FILEWK_DIR'].gsub(/\\/) {"\\\\"}
+if_fileout_dir   = ENV['IF_FILEOUT_DIR'].gsub(/\\/) {"\\\\"}
 
 # ロガー
 $logger = Logger.new(STDOUT)

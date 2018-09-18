@@ -46,7 +46,7 @@ def append_download_hue(syoriNo,fileNo,localFileName):
     """
     with open("template/downloadHue.txt",encoding="utf-8") as f:
         strs = f.read()
-    file_no = "resultfileIdMap" + fileNo + "]"
+    file_no = "resultfileIdMap[" + fileNo + "]"
     local_file_name = "if_fileout_dir + \"\\\\\" + \"" + localFileName + "\""
     strs = strs.format(no=syoriNo, fileid=file_no, localpath=local_file_name)
     return strs
@@ -62,8 +62,8 @@ def append_transform(syoriNo, transformcode, syoriNoList):
     inputfile_id_map = ""
 
     for i, syoriNoToUse in enumerate(syoriNoList):
-        temp = "inputfileIdMap[" + str(i+1) + "] = " \
-               + "resultfileIdMap[\"" + syoriNoToUse + "\"]"
+        temp = "inputfileIdMap[\"" + str(i+1) + "\"] = fileid = " \
+               + "resultfileIdMap[" + syoriNoToUse + "]"
         inputfile_id_map += temp + "\n    "
     strs = strs.format(no=syoriNo, transformcode=transform_code,
                        inputfileIdMap=inputfile_id_map)
@@ -112,7 +112,7 @@ def append_file_down_conv(syoriNo, filePath):
                  filePath.replace("/", "") + "\""
     local_path2 = "if_filewk_dir + \"\\\\\" + \"" +\
                  filePath.replace("/", "") + "\""
-    filedId = "resultfileIdMap[\"" + syoriNo + "\"]"
+    filedId = "resultfileIdMap[10" + syoriNo + "]"
     strs = strs.format(no=syoriNo, source=file_path, localpath=local_path,
                        fileid=filedId, localpath2=local_path2)
     logger.info(strs)
