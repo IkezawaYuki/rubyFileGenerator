@@ -1,6 +1,6 @@
 import logging
 
-h = logging.FileHandler("log.txt")
+h = logging.FileHandler("log.txt",encoding="utf-8")
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 logger.addHandler(h)
@@ -9,14 +9,14 @@ logger.addHandler(h)
 def ruby_source_write(target_path_rb, string_list):
     logger.info("ruby_source_write start: " + str(target_path_rb))
     target_path_rb += ".rb"
-    with open(target_path_rb, "w+") as f:
-        with open("template/header.txt", "r") as r:
+    with open(target_path_rb, "w+",encoding="utf-8") as f:
+        with open("template/header.txt", "r",encoding="utf-8") as r:
             header = r.read()
             f.write(header)
 
         f.write("\n".join(string_list))
 
-        with open("template/footer.txt", "r") as r:
+        with open("template/footer.txt", "r",encoding="utf-8") as r:
             footer = r.read()
             f.write(footer)
     logger.info("ruby_source_write end.")
@@ -28,8 +28,8 @@ def write_batch_file(target_path_bat):
                      + ".rb"
     target_path_bat += ".bat"
 
-    with open(target_path_bat, "w") as f:
-        with open("template/bat_template.txt", "r") as r:
+    with open(target_path_bat, "w",encoding="utf-8") as f:
+        with open("template/bat_template.txt", "r",encoding="utf-8") as r:
             bat_file = r.read()
             bat_file = bat_file.format(bat_file_name=file_name)
         f.write(bat_file)

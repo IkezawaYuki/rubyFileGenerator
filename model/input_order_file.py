@@ -5,7 +5,7 @@ from dateutil.relativedelta import relativedelta
 import model.ruby_source_factory as factory
 
 
-h = logging.FileHandler("log.txt")
+h = logging.FileHandler("log.txt",encoding="utf-8")
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 logger.addHandler(h)
