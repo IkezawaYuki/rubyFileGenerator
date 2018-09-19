@@ -23,7 +23,7 @@ def get_output_filepath(filepath):
     target_start = str(filepath).index("(")
     target_end = str(filepath).index(")")
     target_name = str(filepath)[target_start+1:target_end]
-    return outputpath + target_name
+    return target_name
 
 
 def execute(filepath):
@@ -53,7 +53,8 @@ def execute(filepath):
             strings.append(strs)
         try:
             if len(strings) > 0:
-                outfile.execute_output(output_target_path, page-1, strings)
+                bat_file = outfile.execute_output(output_target_path, page-1, strings)
+                # todo 実行まで。
             strings.clear()
         except IOError:
             raise WritingException()

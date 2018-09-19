@@ -28,6 +28,7 @@ SET args=%*
 
 cd %CJK_SOURCE_DIR%
 
+rem *** Running in aaa en environment
 ruby %CJK_SOURCE_DIR%\{bat_file_name}%args% >> %log%
 SET RUBY_ERRORLEVEL=%ERRORLEVEL%
 

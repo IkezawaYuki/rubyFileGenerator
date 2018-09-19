@@ -38,5 +38,9 @@ def write_batch_file(target_path_bat):
 
 def execute_output(output_taget_path, page, string_list):
     target_path = output_taget_path + "_sheet" + str(page)
-    ruby_source_write(target_path, string_list)
+    ruby_source_write("../source/" + target_path, string_list)
+    target_path = "../bat/" + target_path
     write_batch_file(target_path)
+    return target_path
+    # ruby_source_write(target_path, string_list)
+    # write_batch_file(target_path)
