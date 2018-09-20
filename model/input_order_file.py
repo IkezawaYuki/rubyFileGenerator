@@ -17,7 +17,7 @@ def adjust_args_format(arg):
         if "システム日付" in temp:
             today = datetime.now().strftime("%Y/%m/%d")
             arg_list[i] = today
-        elif "当日末日" in temp:
+        elif "当月末日" in temp:
             today = datetime.today()
             last_day = (today + relativedelta(months=1)
                         ).replace(day=1) - timedelta(days=1)
