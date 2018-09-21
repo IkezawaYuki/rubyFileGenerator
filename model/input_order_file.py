@@ -12,6 +12,7 @@ h.setFormatter(fmt)
 logger.setLevel(logging.DEBUG)
 logger.addHandler(h)
 
+
 def adjust_args_format(arg):
     arg_list = arg.split(" ")
     for i, temp in enumerate(arg_list):
@@ -24,6 +25,11 @@ def adjust_args_format(arg):
                         ).replace(day=1) - timedelta(days=1)
             last_day = datetime.strftime(last_day, '%Y/%m/%d')
             arg_list[i] = last_day
+        elif "前月末日" in temp:
+            today = datetime.today()
+            last_day_last_month = today.replace(day=1) - timedelta(days=1)
+            last_day_last_month = datetime.strftime(last_day_last_month, '%Y/%m/%d')
+            arg_list[i] = last_day_last_month
         elif "***" in temp:
             slash = temp.index("/")
             user_code = temp[0:slash]
@@ -32,11 +38,23 @@ def adjust_args_format(arg):
 
 
 def create_args(argCell):
+    """
+    >>> arg = ["r", "ikezawa/******","<システム日付>", "n", "<当月末日>", "r", "<前月末日>"]
+    >>> create_args(arg)
+    4
+    :param argCell:
+    :return:
+    """
     arg = str(argCell).replace("  ", " ")
     arg = arg.replace("\n", " ")
     arg = arg.replace("\r\n", " ")
     arg = adjust_args_format(arg)
     return arg
+
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
 
 
 def adjust_number_format(syoriNo):

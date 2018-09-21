@@ -3,6 +3,7 @@ import logging
 import xlrd
 import tkinter.filedialog
 import tkinter.messagebox
+from _datetime import datetime
 
 import model.input_order_file as infile
 import model.output_ruby_file as outfile
@@ -23,12 +24,13 @@ class WritingException(Exception):
 
 
 def get_output_filepath(filepath):
+
     c = str(filepath).rindex("/")
     outputpath = str(filepath)[c + 1:]
     target_start = str(outputpath).rfind("(")
     target_end = str(outputpath).rfind(")")
     if target_start == -1 or target_end == -1:
-        target_name = datetime.now().strftime("%h%m")
+        target_name = datetime.now().strftime("%m%d_%H%M")
         return target_name
 
     target_name = str(outputpath)[target_start+1:target_end]
