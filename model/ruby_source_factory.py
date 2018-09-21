@@ -1,10 +1,11 @@
 import logging
 
-h = logging.FileHandler("log.txt",encoding="utf-8")
+h = logging.FileHandler("log.txt", encoding="utf-8")
 logger = logging.getLogger(__name__)
+fmt = logging.Formatter("%(asctime)s %(levelname)s %(name)s :%(message)s")
+h.setFormatter(fmt)
 logger.setLevel(logging.DEBUG)
 logger.addHandler(h)
-
 
 def append_c_to_n(syoriNo, filePath):
     """
@@ -14,6 +15,7 @@ def append_c_to_n(syoriNo, filePath):
         strs = f.read()
     file_path = "\"" + filePath + "\""
     strs = strs.format(no=syoriNo, source= file_path)
+    logger.info("c2n.txt [ConversionからHUEへファイルを転送する]: Ready to write.")
     return strs
 
 
@@ -26,6 +28,7 @@ def append_n_to_c(syoriNo, syoriNoToUse, filePath):
     result_id_map = "resultfileIdMap[" + syoriNoToUse + "]"
     file_path = "\"" + filePath + "\""
     strs = strs.format(no=syoriNo, fileid=result_id_map,destination=file_path)
+    logger.info("n2c.txt [HUEからConversionへファイル転送する]: Ready to write.")
     return strs
 
 
@@ -37,6 +40,7 @@ def append_upload_hue(syoriNo, localFileName):
         strs = f.read()
     localFile = "if_filein_dir + \"\\\\\" + \"" + localFileName + "\""
     strs = strs.format(no=syoriNo, localpath=localFile)
+    logger.info("uploadHue.txt [HUEへファイルをアップロードする。]: Ready to write.")
     return strs
 
 
@@ -49,6 +53,7 @@ def append_download_hue(syoriNo,fileNo,localFileName):
     file_no = "resultfileIdMap[" + fileNo + "]"
     local_file_name = "if_fileout_dir + \"\\\\\" + \"" + localFileName + "\""
     strs = strs.format(no=syoriNo, fileid=file_no, localpath=local_file_name)
+    logger.info("downloadHue.txt [HUEからファイルをダウンロードする。]: Ready to write.")
     return strs
 
 
@@ -67,6 +72,7 @@ def append_transform(syoriNo, transformcode, syoriNoList):
         inputfile_id_map += temp + "\n    "
     strs = strs.format(no=syoriNo, transformcode=transform_code,
                        inputfileIdMap=inputfile_id_map)
+    logger.info("transform.txt [Converterで変換する]: Ready to write.")
     return strs
 
 
@@ -80,7 +86,7 @@ def append_exec_conv_batch(syoriNo, batch, arg):
     arg_s = "\"" + arg + "\""
 
     strs = strs.format(no=syoriNo, batch=batch_s, arg=arg_s)
-    logger.info(strs)
+    logger.info("execConvBatch.txt [Conversionでバッチ処理を実行する] : Ready to write.")
     return strs
 
 
@@ -97,7 +103,7 @@ def append_file_up_conv(syoriNo, filePath):
 
     strs = strs.format(no=syoriNo, destination=file_path, unoverride=unoverride,
                        localpath=localpath)
-    logger.info(strs)
+    logger.info("fileUpConv.txt [Conversionへファイルアップロードする]: Ready to write.")
     return strs
 
 
@@ -115,5 +121,6 @@ def append_file_down_conv(syoriNo, filePath):
     filedId = "resultfileIdMap[10" + syoriNo + "]"
     strs = strs.format(no=syoriNo, source=file_path, localpath=local_path,
                        fileid=filedId, localpath2=local_path2)
-    logger.info(strs)
+    logger.info("fileDownConv.txt [Conversionからファイルをダウンロードする]: Ready to write.")
+    logger.info("自動追記します。")
     return strs
