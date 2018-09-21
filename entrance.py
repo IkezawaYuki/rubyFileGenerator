@@ -4,7 +4,7 @@ import tkinter.messagebox
 import traceback
 import logging
 
-import controller.controll as co
+import controller.control as co
 
 h = logging.FileHandler("log.txt", encoding="utf-8")
 logger = logging.getLogger(__name__)
