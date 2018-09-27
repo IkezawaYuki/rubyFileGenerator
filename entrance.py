@@ -34,14 +34,16 @@ def validate_file(file):
         exit(0)
 
 
+
+
 def main():
     root = tkinter.Tk()
     root.withdraw()
     fTyp = [("","*")]
     iDir = os.path.abspath(os.path.dirname(__file__))
 
-    # file = tkinter.filedialog.askopenfilename(filetypes=fTyp,initialdir=iDir)
-    file = "/Users/ikezaway/PycharmProjects/rubyFileGenerator/インターフェースオーダー定義書(IF051).xls"
+    file = tkinter.filedialog.askopenfilename(filetypes=fTyp,initialdir=iDir)
+    # file = "/Users/ikezaway/PycharmProjects/rubyFileGenerator/インターフェースオーダー定義書(IF051).xls"
     validate_file(file)
 
     try:

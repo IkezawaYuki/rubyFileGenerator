@@ -1,4 +1,5 @@
 import datetime
+import re
 import logging
 import xlrd
 import tkinter.filedialog
@@ -24,17 +25,34 @@ class WritingException(Exception):
 
 
 def get_output_filepath(filepath):
-
+    """
+    >>> get_output_filepath("/ee/233/3r/33r/33/(76d-d)")
+    dd
+    >>> get_output_filepath("/3l.3.3/33/(いいじ88じｊ)kkk")
+    1253
+    :param filepath:
+    :return:
+    """
     c = str(filepath).rindex("/")
     outputpath = str(filepath)[c + 1:]
     target_start = str(outputpath).rfind("(")
     target_end = str(outputpath).rfind(")")
     if target_start == -1 or target_end == -1:
-        target_name = datetime.now().strftime("%m%d_%H%M")
+        target_name = datetime.now().strftime("%m%d-%H%M")
         return target_name
 
     target_name = str(outputpath)[target_start+1:target_end]
+    alnumReg = re.compile(r'^[a-zA-Z0-9_-]+$')
+
+    if alnumReg.match(target_name) is None:
+        target_name = datetime.now().strftime("%m%d-%H%M")
+        return target_name
     return target_name
+
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
 
 
 def execute(filepath):

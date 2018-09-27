@@ -1,5 +1,5 @@
 from distutils.core import setup
-import py2app, sys, os
+import py2exe, sys, os
 
 
 setup(

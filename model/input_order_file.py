@@ -19,13 +19,13 @@ def adjust_args_format(arg):
         if "システム日付" in temp:
             today = datetime.now().strftime("%Y/%m/%d")
             arg_list[i] = today
-        elif "当月末日" in temp:
+        elif "当月末" in temp:
             today = datetime.today()
             last_day = (today + relativedelta(months=1)
                         ).replace(day=1) - timedelta(days=1)
             last_day = datetime.strftime(last_day, '%Y/%m/%d')
             arg_list[i] = last_day
-        elif "前月末日" in temp:
+        elif "前月末" in temp:
             today = datetime.today()
             last_day_last_month = today.replace(day=1) - timedelta(days=1)
             last_day_last_month = datetime.strftime(last_day_last_month, '%Y/%m/%d')
@@ -34,6 +34,8 @@ def adjust_args_format(arg):
             slash = temp.index("/")
             user_code = temp[0:slash]
             arg_list[i] = user_code + "/" + user_code
+        elif temp.isdecimal():
+            arg_list[i] = str(int(temp))
     return " ".join(arg_list)
 
 
@@ -84,7 +86,7 @@ def read_info(row):
 
     syoriNo = adjust_number_format(syoriNo)
 
-    if "," not in syoriNoToUse:
+    if "," not in syoriNoToUse and syoriNoToUse != "-":
         syoriNoToUse = adjust_number_format(syoriNoToUse)
 
     logger.info("syoriNo=" + syoriNo + ", processExec=" + processExec +
