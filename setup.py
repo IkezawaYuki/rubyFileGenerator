@@ -1,13 +1,18 @@
+
 from distutils.core import setup
-import py2exe, sys, os
+import py2exe
 
-
+option = {
+    'bundle_files': 1,
+    'compressed': 1,
+    'optimize': 2
+}
 setup(
-    options={"py2app": {"bundle_files": 1}},
-    zipfile=None,
-    console=[
-        {"script": "entrance.py",
-         "icon_resources":[(1, "entrance_image.ico")],
-         }
-    ]
+    options={
+        'py2exe': option
+    },
+    windows=[
+        {"script": "entrance.py"}
+    ],
+    zipfile=None
 )

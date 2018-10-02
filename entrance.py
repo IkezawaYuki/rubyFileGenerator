@@ -21,7 +21,7 @@ def validate_file(file):
     logger.info("Start processing...")
     logger.info("Target path is " + file)
     confirm = tkinter.messagebox.askokcancel('entrance',
-                                            '以下のファイルのサンプルデータを作成します。\n\n' + file)
+                                            '以下のオーダー定義書のRubyファイルを作成します。\n\n' + file)
 
     if confirm is not True:
         logger.info("キャンセル")
@@ -51,16 +51,12 @@ def main():
     except co.ReadingException:
         logger.error("Error is occured in reading!")
         logger.error(traceback.format_exc())
-        print("Error is occured in reading!")
-        print(traceback.format_exc())
         tkinter.messagebox.showerror("entrance",
                                      "オーダー定義書の読み込み時にエラーが発生しました。処理を中断します。")
         exit(1)
     except co.WritingException:
         logger.error("Error is occurred in writing!")
         logger.error(traceback.format_exc())
-        print("Error is occurred in writing!")
-        print(traceback.format_exc())
         tkinter.messagebox.showerror("entrance",
                                      "Rubyファイル・batファイル書き込み時にエラーが"
                                      "発生しました。処理を中断します。")

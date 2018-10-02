@@ -26,17 +26,15 @@ class WritingException(Exception):
 
 def get_output_filepath(filepath):
     """
-    >>> get_output_filepath("/ee/233/3r/33r/33/(76d-d)")
-    dd
+    >>> get_output_filepath("/ee/233/3r/33r/33/(IF523)(76d-d)")
+    'IF523'
     >>> get_output_filepath("/3l.3.3/33/(いいじ88じｊ)kkk")
-    1253
-    :param filepath:
-    :return:
+    '0930-1225'
     """
     c = str(filepath).rindex("/")
     outputpath = str(filepath)[c + 1:]
-    target_start = str(outputpath).rfind("(")
-    target_end = str(outputpath).rfind(")")
+    target_start = str(outputpath).find("(")
+    target_end = str(outputpath).find(")")
     if target_start == -1 or target_end == -1:
         target_name = datetime.now().strftime("%m%d-%H%M")
         return target_name
