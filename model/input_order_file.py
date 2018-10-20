@@ -38,13 +38,6 @@ def adjust_args_format(arg):
 
 
 def create_args(argCell):
-    """
-    >>> arg = ["r", "ikezawa/******","<システム日付>", "n", "<当月末日>", "r", "<前月末日>"]
-    >>> create_args(arg)
-    4
-    :param argCell:
-    :return:
-    """
     arg = str(argCell).replace("  ", " ")
     arg = arg.replace("\n", " ")
     arg = arg.replace("\r\n", " ")

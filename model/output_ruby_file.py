@@ -7,6 +7,7 @@ h.setFormatter(fmt)
 logger.setLevel(logging.DEBUG)
 logger.addHandler(h)
 
+
 def ruby_source_write(target_path_rb, string_list):
     logger.info("ruby_source_write start: " + str(target_path_rb))
     target_path_rb += ".rb"
