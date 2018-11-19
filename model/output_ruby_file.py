@@ -29,7 +29,7 @@ def write_batch_file(target_path_bat):
                      + ".rb"
     target_path_bat += ".bat"
 
-    with open(target_path_bat, "w",encoding="utf-8") as f:
+    with open(target_path_bat, "w",encoding="shift-jis") as f:
         with open("template/bat_template.txt", "r",encoding="utf-8") as r:
             bat_file = r.read()
             bat_file = bat_file.format(bat_file_name=file_name)
