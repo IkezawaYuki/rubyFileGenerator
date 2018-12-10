@@ -136,8 +136,14 @@ def dispatch_conv(syoriNo,processContents,syoriNoToUse, convFilePath,productName
         return factory.append_file_up_conv(syoriNo, convFilePath)
     elif processContents == "2":
         logger.info("append_file_down_conv start...")
-        return factory.append_file_down_conv(syoriNo, convFilePath)
-    elif processContents == "6":
+        if 'テキスト>' in convFilePath:
+            return factory.append_file_down_conv_ifm(syoriNo, convFilePath)
+        else:
+            return factory.append_file_down_conv(syoriNo, convFilePath)
+    elif processContents == "5":
+        logger.info("append_exec_conv_batch(ifm) start...")
+        return factory.append_exec_conv_batch_ifm(syoriNo, batchName, arg)
+    elif processContents == "3":
         logger.info("append_exec_conv_batch start...")
         return factory.append_exec_conv_batch(syoriNo, batchName, arg)
     return

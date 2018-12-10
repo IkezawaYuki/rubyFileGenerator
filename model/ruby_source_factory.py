@@ -8,6 +8,8 @@ h.setFormatter(fmt)
 logger.setLevel(logging.DEBUG)
 logger.addHandler(h)
 
+IFM = {}
+
 def append_c_to_n(syoriNo, filePath):
     """
     ConversionからHUEへファイル転送する。
@@ -91,6 +93,21 @@ def append_exec_conv_batch(syoriNo, batch, arg):
     return strs
 
 
+def append_exec_conv_batch_ifm(syoriNo, batch, arg):
+    """
+    Conversionでバッチ処理を実行する。
+    """
+    with open("template/execConvBatch.txt",encoding="utf-8") as f:
+        strs = f.read()
+    batch_s = "\"" + batch + "\""
+    arg_s = "\"" + arg + "\""
+
+    strs = strs.format(no=syoriNo, batch=batch_s, arg=arg_s)
+    logger.info("execConvBatch.txt [Conversionでバッチ処理を実行する] : Ready to write.")
+    return strs
+
+
+
 def append_file_up_conv(syoriNo, filePath):
     """
     Conversionへファイルアップロードを行う。
@@ -108,6 +125,27 @@ def append_file_up_conv(syoriNo, filePath):
     return strs
 
 
+def append_file_down_conv_ifm(syoriNo, filePath):
+    """
+        IFMのログファイルをダウンロードする。
+    """
+    with open("template/fileDownloadIFM.txt", encoding="utf-8") as f:
+        strs = f.read()
+    file_path = "\"" + filePath + "\""
+    file_path_temp = filePath[:filePath.index('<')]
+    jid_name = filePath[filePath.index('<')+1:filePath.index('に')]
+
+    local_path = "if_fileout_dir + \"\\\\\" + \"" + \
+                 file_path_temp.replace("/", "") + "\""
+
+    filedId = "resultfileIdMap[10" + syoriNo + "]"
+    strs = strs.format(no=syoriNo, localpath=local_path, file_path_front=file_path_temp, jid_file=jid_name,
+                       fileid=filedId)
+    logger.info("fileDownloadIFM.txt [IFM用の処理でファイルをダウンロードする]: Ready to write.")
+    logger.info("ログファイルの取得のため処理を自動修正します。")
+    return strs
+
+
 def append_file_down_conv(syoriNo, filePath):
     """
     Conversionからファイルをダウンロードする。
@@ -120,6 +158,7 @@ def append_file_down_conv(syoriNo, filePath):
     local_path2 = "if_filewk_dir + \"\\\\\" + \"" +\
                  filePath.replace("/", "") + "\""
     local_path2 = exchange_file_name(local_path2)
+
     filedId = "resultfileIdMap[10" + syoriNo + "]"
     strs = strs.format(no=syoriNo, source=file_path, localpath=local_path,
                        fileid=filedId, localpath2=local_path2)

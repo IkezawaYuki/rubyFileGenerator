@@ -1,0 +1,25 @@
+
+# <自動修正> ^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓^↓ #
+
+    # ==================================================================================================
+    # ConversionからHUEへファイル転送する。
+    #   source    : Conversion のダウンロード元パスを指定。/nfsroot/interface/client 以下のパスを指定。
+    # ==================================================================================================
+    syori_no = 10{no}
+    jid = get_ifmjid(if_filewk_dir + "\\" + "{jid_file}")
+    source = "{file_path_front}" + jid
+    responsCode, resbStatus, resultbatchIdMap[syori_no], resultfileIdMap[syori_no] = transfer_c2n(access_token, client_id, userid, server, source)
+    responsCode, resbStatus = get_status_hue_continuously(access_token, client_id, userid, resultbatchIdMap[syori_no], 10)
+
+    # ==================================================================================================
+    # HUEからファイルをダウンロードする。
+    #   fileid    : ダウンロードするファイルIDを指定。
+    #   localpath : ダウンロードファイルの保存先を指定。¥は¥でエスケープする。 例）C:¥ → C:¥¥
+    # ==================================================================================================
+    syori_no = 20{no}
+    fileid = {fileid}
+    localpath = {localpath} + jid
+    download_hue(access_token, client_id, userid, fileid, localpath)
+
+# ↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^↑^ #
+
