@@ -144,7 +144,7 @@ def dispatch_conv(syoriNo,processContents,syoriNoToUse, convFilePath,productName
         else:
             logger.info("append file_down_conv start...")
             return factory.append_file_down_conv(syoriNo, convFilePath)
-    elif processContents == "3" or processContents == "5":
+    elif processContents == "3" or processContents == "6":
         logger.info("append_exec_conv_batch start...")
         return factory.append_exec_conv_batch(syoriNo, batchName, arg)
     logger.error("Rubyへの書き込みがスキップされた処理があります。")
