@@ -113,6 +113,7 @@ def read_cell_info(syoriNo, processContents, processExec, ifCode, syoriNoToUse, 
     elif processExec == "C":
         return dispatch_conv(syoriNo, processContents, syoriNoToUse,
                              convFilePath, productName, batchName, arg)
+    logger.error("Rubyへの書き込みがスキップされた処理があります。")
     return
 
 
@@ -127,6 +128,7 @@ def dispatch_native(syoriNo, processContents, ifCode, syoriNoToUse):
         logger.info("append_transform start...")
         syoriNoList = syoriNoToUse.split(",")
         return factory.append_transform(syoriNo, ifCode, syoriNoList)
+    logger.error("Rubyへの書き込みがスキップされた処理があります。")
     return
 
 
@@ -137,14 +139,14 @@ def dispatch_conv(syoriNo,processContents,syoriNoToUse, convFilePath,productName
     elif processContents == "2":
         logger.info("append_file_down_conv start...")
         if 'テキスト>' in convFilePath:
+            logger.info("append file_down_conv_ifm start...")
             return factory.append_file_down_conv_ifm(syoriNo, convFilePath)
         else:
+            logger.info("append file_down_conv start...")
             return factory.append_file_down_conv(syoriNo, convFilePath)
-    elif processContents == "5":
-        logger.info("append_exec_conv_batch(ifm) start...")
-        return factory.append_exec_conv_batch_ifm(syoriNo, batchName, arg)
-    elif processContents == "3":
+    elif processContents == "3" or processContents == "5":
         logger.info("append_exec_conv_batch start...")
         return factory.append_exec_conv_batch(syoriNo, batchName, arg)
+    logger.error("Rubyへの書き込みがスキップされた処理があります。")
     return
 

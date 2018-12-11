@@ -8,7 +8,6 @@ h.setFormatter(fmt)
 logger.setLevel(logging.DEBUG)
 logger.addHandler(h)
 
-IFM = {}
 
 def append_c_to_n(syoriNo, filePath):
     """
@@ -95,7 +94,8 @@ def append_exec_conv_batch(syoriNo, batch, arg):
 
 def append_exec_conv_batch_ifm(syoriNo, batch, arg):
     """
-    Conversionでバッチ処理を実行する。
+    Conversionでバッチ処理を実行する。IFM専用のメソッド
+    自動追記処理がこのメソッドの場合だとなされない。
     """
     with open("template/execConvBatch.txt",encoding="utf-8") as f:
         strs = f.read()
@@ -105,7 +105,6 @@ def append_exec_conv_batch_ifm(syoriNo, batch, arg):
     strs = strs.format(no=syoriNo, batch=batch_s, arg=arg_s)
     logger.info("execConvBatch.txt [Conversionでバッチ処理を実行する] : Ready to write.")
     return strs
-
 
 
 def append_file_up_conv(syoriNo, filePath):
@@ -127,7 +126,10 @@ def append_file_up_conv(syoriNo, filePath):
 
 def append_file_down_conv_ifm(syoriNo, filePath):
     """
-        IFMのログファイルをダウンロードする。
+    IFMのログファイルをダウンロードする。
+    この処理だけイレギュラーで、オーダー定義書通りの処理を行わない。
+    これは、Conversionからダウンロードすると暗号化されたファイルになってしまうため、
+    初めから　HUEへ転送　⇒　HUEからダウンロードの処理　へと変更される。
     """
     with open("template/fileDownloadIFM.txt", encoding="utf-8") as f:
         strs = f.read()
@@ -149,6 +151,8 @@ def append_file_down_conv_ifm(syoriNo, filePath):
 def append_file_down_conv(syoriNo, filePath):
     """
     Conversionからファイルをダウンロードする。
+    このままConversionからダウンロードすると、暗号化されたファイルが取得されるため、
+    自動追記として、HUEへ転送　⇒　HUEからダウンロードの処理　が加えられる。
     """
     with open("template/fileDownConv.txt",encoding="utf-8") as f:
         strs = f.read()
@@ -157,7 +161,7 @@ def append_file_down_conv(syoriNo, filePath):
                  filePath.replace("/", "") + "\""
     local_path2 = "if_filewk_dir + \"\\\\\" + \"" +\
                  filePath.replace("/", "") + "\""
-    local_path2 = exchange_file_name(local_path2)
+    # local_path2 = exchange_file_name(local_path2)
 
     filedId = "resultfileIdMap[10" + syoriNo + "]"
     strs = strs.format(no=syoriNo, source=file_path, localpath=local_path,
