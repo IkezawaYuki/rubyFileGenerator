@@ -34,8 +34,6 @@ def validate_file(file):
         exit(0)
 
 
-
-
 def main():
     root = tkinter.Tk()
     root.withdraw()
@@ -67,4 +65,5 @@ def main():
 
 
 if __name__ == "__main__":
+    logger.info("ファイル選択ダイアログを起動します。")
     main()
