@@ -25,13 +25,13 @@ def validate_file(file):
                                             '以下のオーダー定義書のRubyファイルを作成します。\n\n' + file)
 
     if confirm is not True:
-        logger.info("キャンセル")
+        logger.info("キャンセル。")
         sys.exit(0)
 
     if "インターフェースオーダー定義書" not in file:
         tkinter.messagebox.showerror("entrance",
                                      "オーダー定義書ではありません。")
-        logger.info("「オーダー定義書」の文言がない")
+        logger.info("「オーダー定義書」の文言がないため処理中止。")
         sys.exit(0)
 
 
@@ -48,17 +48,16 @@ def main():
     try:
         co.execute(file)
     except co.ReadingException:
-        logger.error("Error is occured in reading!")
+        logger.error("オーダー定義書の読み込み時にエラーが発生しました。")
         logger.error(traceback.format_exc())
         tkinter.messagebox.showerror("entrance",
                                      "オーダー定義書の読み込み時にエラーが発生しました。処理を中断します。")
         sys.exit(1)
     except co.WritingException:
-        logger.error("Error is occurred in writing!")
+        logger.error("ファイルの書き込み時にエラーが発生しました。")
         logger.error(traceback.format_exc())
         tkinter.messagebox.showerror("entrance",
-                                     "Rubyファイル・batファイル書き込み時にエラーが"
-                                     "発生しました。処理を中断します。")
+                                     "Rubyファイル・batファイル書き込み時にエラーが発生しました。処理を中断します。")
         sys.exit(1)
 
     tkinter.messagebox.showinfo("entrance",
@@ -66,5 +65,5 @@ def main():
 
 
 if __name__ == "__main__":
-    logger.info("ファイル選択ダイアログを起動します。")
+    logger.info("ファイル選択ダイアログを起動。")
     main()
