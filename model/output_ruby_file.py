@@ -7,6 +7,7 @@ h.setFormatter(fmt)
 logger.setLevel(logging.DEBUG)
 logger.addHandler(h)
 
+
 def ruby_source_write(target_path_rb, string_list):
     logger.info("ruby_source_write start: " + str(target_path_rb))
     target_path_rb += ".rb"
@@ -20,7 +21,7 @@ def ruby_source_write(target_path_rb, string_list):
         with open("template/footer.txt", "r",encoding="utf-8") as r:
             footer = r.read()
             f.write(footer)
-    logger.info("ruby_source_write end.")
+    logger.info("Rubyソースファイルの書き込みが正常終了。")
 
 
 def write_batch_file(target_path_bat):
@@ -34,7 +35,7 @@ def write_batch_file(target_path_bat):
             bat_file = r.read()
             bat_file = bat_file.format(bat_file_name=file_name)
         f.write(bat_file)
-    logger.info("write_batch_file end.")
+    logger.info("バッチファイルの書き込み処理が正常終了。")
 
 
 def execute_output(output_taget_path, page, string_list):
@@ -44,5 +45,3 @@ def execute_output(output_taget_path, page, string_list):
     target_path = "../bat/" + target_path
     write_batch_file(target_path)
     return target_path
-    # ruby_source_write(target_path, string_list)
-    # write_batch_file(target_path)

@@ -15,6 +15,7 @@ logger.addHandler(h)
 
 def adjust_args_format(arg):
     arg_list = arg.split(" ")
+    logger.info("バッチの引数を修正中。")
     for i, temp in enumerate(arg_list):
         if "システム日付" in temp:
             today = datetime.now().strftime("%Y/%m/%d")
@@ -41,10 +42,7 @@ def adjust_args_format(arg):
 
 def create_args(argCell):
     """
-    >>> arg = ["r", "ikezawa/******","<システム日付>", "n", "<当月末日>", "r", "<前月末日>"]
-    >>> create_args(arg)
-    4
-    :param argCell:
+    :param argCell: バッチの実行コマンドなど
     :return:
     """
     arg = str(argCell).replace("  ", " ")
@@ -128,7 +126,7 @@ def dispatch_native(syoriNo, processContents, ifCode, syoriNoToUse):
         logger.info("append_transform start...")
         syoriNoList = syoriNoToUse.split(",")
         return factory.append_transform(syoriNo, ifCode, syoriNoList)
-    logger.error("Rubyへの書き込みがスキップされた処理があります。")
+    logger.error("Rubyへの書き込みがスキップされた処理があります。" + syoriNo)
     return
 
 
@@ -147,6 +145,6 @@ def dispatch_conv(syoriNo,processContents,syoriNoToUse, convFilePath,productName
     elif processContents == "3" or processContents == "6":
         logger.info("append_exec_conv_batch start...")
         return factory.append_exec_conv_batch(syoriNo, batchName, arg)
-    logger.error("Rubyへの書き込みがスキップされた処理があります。")
+    logger.error("Rubyへの書き込みがスキップされた処理があります。" + syoriNo)
     return
 

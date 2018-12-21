@@ -16,6 +16,7 @@ h.setFormatter(fmt)
 logger.setLevel(logging.DEBUG)
 logger.addHandler(h)
 
+
 class ReadingException(Exception):
     pass
 
@@ -25,12 +26,7 @@ class WritingException(Exception):
 
 
 def get_output_filepath(filepath):
-    """
-    >>> get_output_filepath("/ee/233/3r/33r/33/(IF523)(76d-d)")
-    'IF523'
-    >>> get_output_filepath("/3l.3.3/33/(いいじ88じｊ)kkk")
-    '0930-1225'
-    """
+
     c = str(filepath).rindex("/")
     outputpath = str(filepath)[c + 1:]
     target_start = str(outputpath).find("(")
@@ -64,13 +60,13 @@ def execute(filepath):
         if sheet.name == "更新履歴" or sheet.name == "表紙" or sheet.name == "環境変数一覧":
             continue
 
-        logger.info("target sheet name is " + str(sheet.name))
+        logger.info("これから読み込むシート名は " + str(sheet.name))
 
         for row_index in range(sheet.nrows):
             row = sheet.row(row_index)
             if row_index < 5:
                 continue
-            logger.info("target row is" + str(row))
+
             try:
                 strs = infile.read_info(row)
             except IOError:
@@ -84,7 +80,7 @@ def execute(filepath):
                 bat_file = outfile.execute_output(output_target_path, page-1, strings)
                 bat_files.append(bat_file)
             strings.clear()
-            logger.info(str(sheet.name) + ": writing file is success.")
+            logger.info(str(sheet.name) + ": このシートの情報をファイルへ書き込むことができました。")
         except IOError:
             raise WritingException()
 

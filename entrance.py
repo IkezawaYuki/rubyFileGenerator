@@ -3,6 +3,7 @@ import tkinter.filedialog
 import tkinter.messagebox
 import traceback
 import logging
+import sys
 
 import controller.control as co
 
@@ -16,22 +17,22 @@ logger.addHandler(h)
 
 def validate_file(file):
     if file is None or len(file) == 0:
-        exit(0)
+        logger.info("中断")
+        sys.exit(0)
 
-    logger.info("Start processing...")
-    logger.info("Target path is " + file)
+    logger.info("指定したファイルのパスは " + file)
     confirm = tkinter.messagebox.askokcancel('entrance',
                                             '以下のオーダー定義書のRubyファイルを作成します。\n\n' + file)
 
     if confirm is not True:
         logger.info("キャンセル")
-        exit(0)
+        sys.exit(0)
 
     if "インターフェースオーダー定義書" not in file:
         tkinter.messagebox.showerror("entrance",
                                      "オーダー定義書ではありません。")
         logger.info("「オーダー定義書」の文言がない")
-        exit(0)
+        sys.exit(0)
 
 
 def main():
@@ -51,14 +52,14 @@ def main():
         logger.error(traceback.format_exc())
         tkinter.messagebox.showerror("entrance",
                                      "オーダー定義書の読み込み時にエラーが発生しました。処理を中断します。")
-        exit(1)
+        sys.exit(1)
     except co.WritingException:
         logger.error("Error is occurred in writing!")
         logger.error(traceback.format_exc())
         tkinter.messagebox.showerror("entrance",
                                      "Rubyファイル・batファイル書き込み時にエラーが"
                                      "発生しました。処理を中断します。")
-        exit(1)
+        sys.exit(1)
 
     tkinter.messagebox.showinfo("entrance",
                                 "処理が完了しました。\n/source、/bat以下を確認してください")

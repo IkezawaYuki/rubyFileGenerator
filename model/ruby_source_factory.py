@@ -94,8 +94,8 @@ def append_exec_conv_batch(syoriNo, batch, arg):
 
 def append_exec_conv_batch_ifm(syoriNo, batch, arg):
     """
-    Conversionでバッチ処理を実行する。IFM専用のメソッド
-    自動追記処理がこのメソッドの場合だとなされない。
+    Conversionでバッチ処理を実行する。IFM専用のメソッド。
+    自動追記処理がこのメソッドの場合だと行われない。
     """
     with open("template/execConvBatch.txt",encoding="utf-8") as f:
         strs = f.read()
@@ -133,7 +133,6 @@ def append_file_down_conv_ifm(syoriNo, filePath):
     """
     with open("template/fileDownloadIFM.txt", encoding="utf-8") as f:
         strs = f.read()
-    file_path = "\"" + filePath + "\""
     file_path_temp = filePath[:filePath.index('<')]
     jid_name = filePath[filePath.index('<')+1:filePath.index('に')]
 
