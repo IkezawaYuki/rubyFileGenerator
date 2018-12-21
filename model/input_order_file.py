@@ -15,7 +15,7 @@ logger.addHandler(h)
 
 def adjust_args_format(arg):
     arg_list = arg.split(" ")
-    logger.info("バッチの引数を修正中。")
+    logger.info("バッチの引数を修正開始。" + arg)
     for i, temp in enumerate(arg_list):
         if "システム日付" in temp:
             today = datetime.now().strftime("%Y/%m/%d")

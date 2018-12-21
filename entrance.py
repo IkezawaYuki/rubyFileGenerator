@@ -17,7 +17,7 @@ logger.addHandler(h)
 
 def validate_file(file):
     if file is None or len(file) == 0:
-        logger.info("中断")
+        logger.info("中断。")
         sys.exit(0)
 
     logger.info("指定したファイルのパスは " + file)
@@ -42,7 +42,7 @@ def main():
     iDir = os.path.abspath(os.path.dirname(__file__))
 
     file = tkinter.filedialog.askopenfilename(filetypes=fTyp,initialdir=iDir)
-    # file = "/Users/ikezaway/PycharmProjects/rubyFileGenerator/インターフェースオーダー定義書(IF051).xls"
+
     validate_file(file)
 
     try:
@@ -65,5 +65,5 @@ def main():
 
 
 if __name__ == "__main__":
-    logger.info("ファイル選択ダイアログを起動。")
+    logger.info("entranceを起動。")
     main()
