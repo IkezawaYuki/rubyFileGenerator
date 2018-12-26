@@ -13,7 +13,7 @@ def append_c_to_n(syoriNo, filePath):
     """
     ConversionからHUEへファイル転送する。
     """
-    with open("template/c2n.txt", "r",encoding="utf-8") as f:
+    with open("template/c2n.txt", "r", encoding="utf-8") as f:
         strs = f.read()
     file_path = "\"" + filePath + "\""
     strs = strs.format(no=syoriNo, source= file_path)
