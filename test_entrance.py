@@ -39,6 +39,7 @@ class TestCellInfoReading(object):
 
 
 class TestCreateFilePath(object):
+    """名前から出力ファイル名を想定通りに生成できるかのテスト。"""
 
     def test_get_output_filepath(self):
         file_path = "test/test/インターフェースオーダー定義書(IF001).xlsx"
@@ -52,3 +53,14 @@ class TestCreateFilePath(object):
         result = control.get_output_filepath(file_path)
         expect = "1226-1234"
         assert result == expect
+
+
+class TestRubyFactory(object):
+    """ruby_source_factory.pyが値を返すかのテスト"""
+
+    def test_append_c_to_n(self):
+        file_path = "/IF52520031.csv"
+        syori_num = "10"
+        result = factory.append_c_to_n(syori_num, file_path)
+        assert result is not None
+    

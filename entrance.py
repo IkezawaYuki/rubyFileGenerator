@@ -22,7 +22,7 @@ def validate_file(file):
 
     logger.info("指定したファイルのパスは " + file)
     confirm = tkinter.messagebox.askokcancel('entrance',
-                                            '以下のオーダー定義書のRubyファイルを作成します。\n\n' + file)
+                                             '以下のオーダー定義書のRubyファイルを作成します。\n\n' + file)
 
     if confirm is not True:
         logger.info("キャンセル。")
