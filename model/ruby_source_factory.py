@@ -115,11 +115,9 @@ def append_file_up_conv(syoriNo, filePath):
         strs = f.read()
     file_path = "\"" + filePath + "\""
     unoverride = "\"false\""
-    localpath = "if_filein_dir + \"\\\\\" + \"" + filePath.replace("/", "") +\
-                "\""
+    localpath = "if_filein_dir + \"\\\\\" + \"" + filePath.replace("/", "") + "\""
 
-    strs = strs.format(no=syoriNo, destination=file_path, unoverride=unoverride,
-                       localpath=localpath)
+    strs = strs.format(no=syoriNo, destination=file_path, unoverride=unoverride,localpath=localpath)
     logger.info("fileUpConv.txt [Conversionへファイルアップロードする]: Ready to write.")
     return strs
 
@@ -136,8 +134,7 @@ def append_file_down_conv_ifm(syoriNo, filePath):
     file_path_temp = filePath[:filePath.index('<')]
     jid_name = filePath[filePath.index('<')+1:filePath.index('に')]
 
-    local_path = "if_fileout_dir + \"\\\\\" + \"" + \
-                 file_path_temp.replace("/", "") + "\""
+    local_path = "if_filewk_dir + \"\\\\\" + \"" + file_path_temp.replace("/", "") + "\""
 
     filedId = "resultfileIdMap[10" + syoriNo + "]"
     strs = strs.format(no=syoriNo, localpath=local_path, file_path_front=file_path_temp, jid_file=jid_name,
@@ -156,15 +153,11 @@ def append_file_down_conv(syoriNo, filePath):
     with open("template/fileDownConv.txt",encoding="utf-8") as f:
         strs = f.read()
     file_path = "\"" + filePath + "\""
-    local_path = "if_fileout_dir + \"\\\\\" + \"" +\
-                 filePath.replace("/", "") + "\""
-    local_path2 = "if_filewk_dir + \"\\\\\" + \"" +\
-                 filePath.replace("/", "") + "\""
-    # local_path2 = exchange_file_name(local_path2)
+    local_path = "if_fileout_dir + \"\\\\\" + \"" + filePath.replace("/", "") + "\""
+    local_path2 = "if_filewk_dir + \"\\\\\" + \"" + filePath.replace("/", "") + "\""
 
     filedId = "resultfileIdMap[10" + syoriNo + "]"
-    strs = strs.format(no=syoriNo, source=file_path, localpath=local_path,
-                       fileid=filedId, localpath2=local_path2)
+    strs = strs.format(no=syoriNo, source=file_path, localpath=local_path, fileid=filedId, localpath2=local_path2)
     logger.info("fileDownConv.txt [Conversionからファイルをダウンロードする]: Ready to write.")
     logger.info("自動追記します。")
     return strs

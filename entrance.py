@@ -21,20 +21,17 @@ def validate_file(file):
         sys.exit(0)
 
     logger.info("指定したファイルのパスは " + file)
-    confirm = tkinter.messagebox.askokcancel('entrance',
-                                             '以下のオーダー定義書のRubyファイルを作成します。\n\n' + file)
+    confirm = tkinter.messagebox.askokcancel('entrance', '以下のオーダー定義書のRubyファイルを作成します。\n\n' + file)
 
     if confirm is not True:
         logger.info("キャンセル。")
         sys.exit(0)
 
 
-
 def main():
     root = tkinter.Tk()
     root.withdraw()
     fTyp = [("","*")]
-    # iDir = os.path.abspath(os.path.dirname("__file__"))
     iDir = os.path.dirname(os.path.abspath("__file__"))
 
     file = tkinter.filedialog.askopenfilename(filetypes=fTyp,initialdir=iDir)
@@ -56,8 +53,7 @@ def main():
                                      "Rubyファイル・batファイル書き込み時にエラーが発生しました。処理を中断します。")
         sys.exit(1)
 
-    tkinter.messagebox.showinfo("entrance",
-                                "処理が完了しました。\n/source、/bat以下を確認してください")
+    tkinter.messagebox.showinfo("entrance", "処理が完了しました。\n/source、/bat以下を確認してください")
 
 
 if __name__ == "__main__":

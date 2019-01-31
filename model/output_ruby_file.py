@@ -26,8 +26,7 @@ def ruby_source_write(target_path_rb, string_list):
 
 def write_batch_file(target_path_bat):
     logger.info("write_batch_file start: " + str(target_path_bat))
-    file_name = str(target_path_bat[int(str(target_path_bat).rindex("/")+1):])\
-                     + ".rb"
+    file_name = str(target_path_bat[int(str(target_path_bat).rindex("/")+1):]) + ".rb"
     target_path_bat += ".bat"
 
     with open(target_path_bat, "w",encoding="shift-jis") as f:

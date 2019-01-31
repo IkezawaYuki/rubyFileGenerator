@@ -22,8 +22,7 @@ def adjust_args_format(arg):
             arg_list[i] = today
         elif "当月末" in temp:
             today = datetime.today()
-            last_day = (today + relativedelta(months=1)
-                        ).replace(day=1) - timedelta(days=1)
+            last_day = (today + relativedelta(months=1)).replace(day=1) - timedelta(days=1)
             last_day = datetime.strftime(last_day, '%Y/%m/%d')
             arg_list[i] = last_day
         elif "前月末" in temp:
@@ -93,8 +92,7 @@ def read_info(row):
                 productName + ", batchName=" + batchName + ", arg=" + arg)
 
     strs = read_cell_info(syoriNo, processContents, processExec, ifCode,
-                          syoriNoToUse, convFilePath, productName, batchName,
-                          arg)
+                          syoriNoToUse, convFilePath, productName, batchName, arg)
     return strs
 
 
@@ -109,8 +107,7 @@ def read_cell_info(syoriNo, processContents, processExec, ifCode, syoriNoToUse, 
     elif processExec == "N":
         return dispatch_native(syoriNo, processContents, ifCode, syoriNoToUse)
     elif processExec == "C":
-        return dispatch_conv(syoriNo, processContents, syoriNoToUse,
-                             convFilePath, productName, batchName, arg)
+        return dispatch_conv(syoriNo, processContents, syoriNoToUse, convFilePath, productName, batchName, arg)
     logger.error("Rubyへの書き込みがスキップされた処理があります。")
     return
 
@@ -121,7 +118,7 @@ def dispatch_native(syoriNo, processContents, ifCode, syoriNoToUse):
         return factory.append_upload_hue(syoriNo, "ローカルファイルパス")
     elif processContents == "2":
         logger.info("append_download_hue start...")
-        return factory.append_download_hue(syoriNo,syoriNoToUse,"ローカルファイルパス")
+        return factory.append_download_hue(syoriNo, syoriNoToUse, "ローカルファイルパス")
     elif processContents == "5":
         logger.info("append_transform start...")
         syoriNoList = syoriNoToUse.split(",")
@@ -130,7 +127,7 @@ def dispatch_native(syoriNo, processContents, ifCode, syoriNoToUse):
     return
 
 
-def dispatch_conv(syoriNo,processContents,syoriNoToUse, convFilePath,productName,batchName,arg):
+def dispatch_conv(syoriNo,processContents, syoriNoToUse, convFilePath, productName,batchName,arg):
     if processContents == "1":
         logger.info("append_file_up_conv start...")
         return factory.append_file_up_conv(syoriNo, convFilePath)
