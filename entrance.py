@@ -28,18 +28,14 @@ def validate_file(file):
         logger.info("キャンセル。")
         sys.exit(0)
 
-    if "インターフェースオーダー定義書" not in file:
-        tkinter.messagebox.showerror("entrance",
-                                     "オーダー定義書ではありません。")
-        logger.info("「オーダー定義書」の文言がないため処理中止。")
-        sys.exit(0)
 
 
 def main():
     root = tkinter.Tk()
     root.withdraw()
     fTyp = [("","*")]
-    iDir = os.path.abspath(os.path.dirname(__file__))
+    # iDir = os.path.abspath(os.path.dirname("__file__"))
+    iDir = os.path.dirname(os.path.abspath("__file__"))
 
     file = tkinter.filedialog.askopenfilename(filetypes=fTyp,initialdir=iDir)
 

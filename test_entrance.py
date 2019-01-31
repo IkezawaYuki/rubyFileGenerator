@@ -63,4 +63,4 @@ class TestRubyFactory(object):
         syori_num = "10"
         result = factory.append_c_to_n(syori_num, file_path)
         assert result is not None
-    
+
