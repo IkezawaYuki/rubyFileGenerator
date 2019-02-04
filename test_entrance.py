@@ -63,7 +63,9 @@ class TestRubyFactory(object):
     """ruby_source_factory.pyが値を返すかのテスト"""
 
     def test_append_c_to_n(self):
-        sentence = """    # ==================================================================================================
+
+        sentence = """
+    # ==================================================================================================
     # ConversionからHUEへファイル転送する。
     #   source    : Conversion のダウンロード元パスを指定。/nfsroot/interface/client 以下のパスを指定。
     # ==================================================================================================
@@ -72,7 +74,19 @@ class TestRubyFactory(object):
     responsCode, resbStatus, resultbatchIdMap[syori_no], resultfileIdMap[syori_no] = transfer_c2n(access_token, client_id, userid, server, source)
     responsCode, resbStatus = get_status_hue_continuously(access_token, client_id, userid, resultbatchIdMap[syori_no], 10)
 """
+
         factory.get_c_to_n_text = MagicMock(return_value=sentence)
         sentence = factory.append_c_to_n("3", "/IF55500031")
-        assert sentence == "aaaaa"
+
+        expect = """
+    # ==================================================================================================
+    # ConversionからHUEへファイル転送する。
+    #   source    : Conversion のダウンロード元パスを指定。/nfsroot/interface/client 以下のパスを指定。
+    # ==================================================================================================
+    syori_no = 3
+    source = "/IF55500031"
+    responsCode, resbStatus, resultbatchIdMap[syori_no], resultfileIdMap[syori_no] = transfer_c2n(access_token, client_id, userid, server, source)
+    responsCode, resbStatus = get_status_hue_continuously(access_token, client_id, userid, resultbatchIdMap[syori_no], 10)
+"""
+        assert sentence == expect
 
