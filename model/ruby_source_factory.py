@@ -61,7 +61,7 @@ def get_upload_hue_text():
     return sentence
 
 
-def append_download_hue(syoriNo,fileNo,localFileName):
+def append_download_hue(syoriNo, fileNo, localFileName):
     """
     HUEからファイルをダウンロードする。
     """
