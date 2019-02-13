@@ -36,7 +36,7 @@ HUE_API_KICK/ <br>
 
 <br>
 ◇ デプロイ ◇<br>
-    本ツールは「pyinstaller」を使用しています。
+    本ツールは「pyinstaller」を使用しています。<br>
     pyinstaller が入っていない場合は、pipコマンドにてダウンロードしてください。<br>
         pip install pyinstaller<br>
     entrance.py があるファイル階層にて、以下のコマンドを実行してください。<br>
@@ -61,6 +61,6 @@ HUE_API_KICK/ <br>
 <br>
 ◇ 転載 ◇<br>
    転載はご自由にどうぞ。許可不要、著作権表記も不要。<br>
-
+<br>
 ◇ FAQ・既知のバグ ◇<br>
 <br>
