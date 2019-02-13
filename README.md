@@ -19,20 +19,20 @@
 2019年2月時点で、「ファイル削除」のみ対象外となっています。
 
 ◇ 動作条件 ◇
-HUE_API_KICK内に以下のように配置することで動作します。
+HUE_API_KICK内に以下のように配置することで動作します。<br>
 HUE_API_KICK/ <br>
 　├ bat/ <br>
-　├ config/
-　├*entrance/
-　│　├ *template/
-　│　└ *entrance.exe/
-　├ filein/
-　├ fileout/
-　├ filewk/
-　├ logs/
-　├ result/
-　├ ruby/
-　└ source/
+　├ config/<br>
+　├*entrance/<br>
+　│　├ *template/<br>
+　│　└ *entrance.exe/<br>
+　├ filein/<br>
+　├ fileout/<br>
+　├ filewk/<br>
+　├ logs/<br>
+　├ result/<br>
+　├ ruby/<br>
+　└ source/<br>
 
 
 ◇ デプロイ ◇
