@@ -20,8 +20,8 @@
 
 ◇ 動作条件 ◇
 HUE_API_KICK内に以下のように配置することで動作します。
-HUE_API_KICK/
-　├ bat/
+HUE_API_KICK/ <br>
+　├ bat/ <br>
 　├ config/
 　├*entrance/
 　│　├ *template/
