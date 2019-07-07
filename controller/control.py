@@ -1,4 +1,5 @@
 import datetime
+import re
 import logging
 import xlrd
 import tkinter.filedialog
@@ -15,6 +16,7 @@ h.setFormatter(fmt)
 logger.setLevel(logging.DEBUG)
 logger.addHandler(h)
 
+
 class ReadingException(Exception):
     pass
 
@@ -27,14 +29,24 @@ def get_output_filepath(filepath):
 
     c = str(filepath).rindex("/")
     outputpath = str(filepath)[c + 1:]
-    target_start = str(outputpath).rfind("(")
-    target_end = str(outputpath).rfind(")")
+    target_start = str(outputpath).find("(")
+    target_end = str(outputpath).find(")")
     if target_start == -1 or target_end == -1:
-        target_name = datetime.now().strftime("%m%d_%H%M")
+        target_name = datetime.now().strftime("%m%d-%H%M")
         return target_name
 
     target_name = str(outputpath)[target_start+1:target_end]
+    alnumReg = re.compile(r'^[a-zA-Z0-9_-]+$')
+
+    if alnumReg.match(target_name) is None:
+        target_name = datetime.now().strftime("%m%d-%H%M")
+        return target_name
     return target_name
+
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
 
 
 def execute(filepath):
@@ -48,13 +60,13 @@ def execute(filepath):
         if sheet.name == "更新履歴" or sheet.name == "表紙" or sheet.name == "環境変数一覧":
             continue
 
-        logger.info("target sheet name is " + str(sheet.name))
+        logger.info("これから読み込むシート名は " + str(sheet.name))
 
         for row_index in range(sheet.nrows):
             row = sheet.row(row_index)
             if row_index < 5:
                 continue
-            logger.info("target row is" + str(row))
+
             try:
                 strs = infile.read_info(row)
             except IOError:
@@ -68,7 +80,7 @@ def execute(filepath):
                 bat_file = outfile.execute_output(output_target_path, page-1, strings)
                 bat_files.append(bat_file)
             strings.clear()
-            logger.info(str(sheet.name) + ": writing file is success.")
+            logger.info(str(sheet.name) + ": このシートの情報をファイルへ書き込むことができました。")
         except IOError:
             raise WritingException()
 
