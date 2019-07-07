@@ -36,6 +36,8 @@ def main():
 
     file = tkinter.filedialog.askopenfilename(filetypes=fTyp,initialdir=iDir)
 
+    # file = tkinter.filedialog.askopenfilename(filetypes=fTyp,initialdir=iDir)
+    file = "/Users/ikezaway/PycharmProjects/rubyFileGenerator/インターフェースオーダー定義書(IF523).xls"
     validate_file(file)
 
     try:

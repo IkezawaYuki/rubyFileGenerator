@@ -40,10 +40,7 @@ def adjust_args_format(arg):
 
 
 def create_args(argCell):
-    """
-    :param argCell: バッチの実行コマンドなど
-    :return:
-    """
+
     arg = str(argCell).replace("  ", " ")
     arg = arg.replace("\n", " ")
     arg = arg.replace("\r\n", " ")

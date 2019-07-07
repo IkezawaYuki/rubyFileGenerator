@@ -1,5 +1,6 @@
 from _datetime import datetime
 import logging
+from _datetime import datetime
 
 h = logging.FileHandler("log.txt", encoding="utf-8")
 logger = logging.getLogger(__name__)
@@ -201,11 +202,19 @@ def append_file_down_conv(syoriNo, filePath):
     local_path2 = "if_filewk_dir + \"\\\\\" + \"" + filePath.replace("/", "") + "\""
 
     filedId = "resultfileIdMap[10" + syoriNo + "]"
-    strs = strs.format(no=syoriNo, source=file_path, localpath=local_path, fileid=filedId, localpath2=local_path2)
+
     logger.info("fileDownConv.txt [Conversionからファイルをダウンロードする]: Ready to write.")
     logger.info("自動追記します。")
     return strs
 
+
+
+def create_localpath2(path):
+    before_dot = path[:path.rfind(".")]
+    after_dot = path[path.rfind("."):]
+    this_time = datetime.now().strftime("%Y%m%d_%H%M%S")
+    path2 = before_dot + "_" + this_time + after_dot
+    return path2
 
 def get_file_down_conv_text():
     with open("template/fileDownConv.txt",encoding="utf-8") as f:
@@ -222,3 +231,4 @@ def exchange_file_name(filename):
         return filename
     else:
         return filename
+
